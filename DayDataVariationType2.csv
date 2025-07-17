@@ -1,0 +1,16 @@
+Step_No,Document,Prep_Days,Finish_Days_Before_J0,Predecessor,Concurrency_Group
+1,Change-control package (Var II),14,28,,1
+2,Section Module 5 revised,7,21,20,1
+3,Addendum Clinical Overview,7,21,21,1
+4,Addendum QOS / Module 3 revised,7,21,22,1
+5,SmPC/PL tracked changes,7,21,23,1
+6,eAF Variation Type II,3,14,24,1
+7,Cover letter Type II,1,7,25,2
+8,Compilation eCTD (Var II),3,2,26,3
+9,Validation + Submission (Var II),2,0,27,4
+10,Final review and submission,2,0,28,5
+11,Confirmation of receipt,1,0,29,6
+12,Post-submission follow-up,5,0,30,7
+13,Regulatory response preparation,3,0,31,8
+14,Finalization of documentation,2,0,32,9
+15,Closure of variation process,1,0,33,10

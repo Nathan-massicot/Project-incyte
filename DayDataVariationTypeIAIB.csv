@@ -1,0 +1,15 @@
+Step_No,Document,Prep_Days,Finish_Days_Before_J0,Predecessor,Concurrency_Group
+1,Change-control package (Var IA/IB),14,28,,1
+2,Section Module 3 revised,7,21,20,1
+3,Addendum QOS (IA/IB),7,21,21,1
+4,Updated SmPC/PL,7,21,22,1
+5,eAF Variation IA/IB,3,14,23,1
+6,Cover letter variation,1,7,24,2
+7,Compilation eCTD (Var IA/IB),3,2,25,3
+8,Validation + Sending Gateway (IA/IB),2,0,26,4
+9,Final review and submission,2,0,27,5
+10,Confirmation of receipt,1,0,28,6
+11,Post-submission follow-up,5,0,29,7
+12,Regulatory response preparation,3,0,30,8
+13,Finalization of documentation,2,0,31,9
+14,Closure of variation process,1,0,32,10
