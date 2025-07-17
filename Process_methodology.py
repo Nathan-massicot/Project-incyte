@@ -11,10 +11,10 @@ import streamlit as st
 # Mapping "process label" -> CSV file
 # ------------------------------------------------------------------
 PROCESS_CSV = {
-    "MAA – nouvelle substance active (procédure centralisée)": "DayDataMaa.csv",
-    "Variation Type IA / IB (procédure centralisée)": "DayDataVariationTypeIAIB.csv",
-    "Variation Type II (qualité ou nouvelle indication)": "DayDataVariationType2.csv",
-    "Extension d’AMM (nouvelle forme / dosage)": "DayDataExtensionMaa.csv",
+    "MAA – new active substance (centralised)": "DayDataMaa.csv",
+    "Variation Type IA / IB (centralised)": "DayDataVariationTypeIAIB.csv",
+    "Variation Type II (quality or new indication)": "DayDataVariationType2.csv",
+    "MAA extension (new form / strength)": "DayDataExtensionMaa.csv",
 }
 
 
@@ -164,12 +164,12 @@ def eisenhower_metrics(gantt_df: pd.DataFrame) -> pd.DataFrame:
     # Quadrant labels
     def quadrant(row):
         if row.Urgence >= 5 and row.Importance >= 5:
-            return "Q1 Faire maintenant"
+            return "Q1 Do now"
         if row.Urgence < 5 and row.Importance >= 5:
-            return "Q2 Planifier"
+            return "Q2 Plan"
         if row.Urgence >= 5 and row.Importance < 5:
-            return "Q3 Déléguer"
-        return "Q4 Éliminer"
+            return "Q3 Delegate"
+        return "Q4 Eliminate"
 
     out["Quadrant"] = out.apply(quadrant, axis=1)
     return out
@@ -180,20 +180,20 @@ def eisenhower_metrics(gantt_df: pd.DataFrame) -> pd.DataFrame:
 # ------------------------------------------------------------------
 
 def main() -> None:
-    st.set_page_config(page_title="Diagramme de Gantt – Suivi des Processus", layout="wide")
-    st.title("Suivi des Processus Réglementaires & Diagramme de Gantt")
+    st.set_page_config(page_title="Gantt Chart – Process Tracking", layout="wide")
+    st.title("Regulatory Process Tracking & Gantt Chart")
 
     # ------------------------------------------------------------------
     # Process selection + load
     # ------------------------------------------------------------------
-    process = st.sidebar.selectbox("Choisissez le type de process", list(PROCESS_CSV.keys()))
-    st.header(f"Processus sélectionné : {process}")
+    process = st.sidebar.selectbox("Choose process type", list(PROCESS_CSV.keys()))
+    st.header(f"Selected process: {process}")
     df = load_data(process)
 
     # ------------------------------------------------------------------
-    # Checklist (premier jalon de chaque groupe en gras)
+    # Checklist (first milestone of each group in bold)
     # ------------------------------------------------------------------
-    st.subheader("Jalons à réaliser")
+    st.subheader("Milestones to complete")
     checklist = {}
     for group in sorted(df["Concurrency_Group"].dropna().astype(int).unique()):
         group_mask = df["Concurrency_Group"].notna()
@@ -215,19 +215,19 @@ def main() -> None:
             checklist[int(row["Step_No"])] = checked
 
     # ------------------------------------------------------------------
-    # J0 input (soumission)
+    # J0 input (submission)
     # ------------------------------------------------------------------
-    st.subheader("Diagramme de Gantt")
+    st.subheader("Gantt Chart")
     j0_date = st.date_input(
-        "Sélectionnez la date J0 (date de soumission)",
+        "Select J0 date (submission date)",
         value=datetime.today(),
-        help="La date J0 correspond à la date cible de soumission du dossier.",
+        help="The J0 date corresponds to the target submission date of the file.",
     )
     if isinstance(j0_date, tuple):
-        st.error("Veuillez sélectionner une seule date (pas une plage de dates) pour J0.")
+        st.error("Please select a single date (not a date range) for J0.")
         st.stop()
     if j0_date is None:
-        st.error("Veuillez sélectionner une date valide pour J0.")
+        st.error("Please select a valid date for J0.")
         st.stop()
     j0_datetime = datetime.combine(j0_date, datetime.min.time())
 
@@ -239,28 +239,28 @@ def main() -> None:
     # ------------------------------------------------------------------
     # Interactive filters (Gantt)
     # ------------------------------------------------------------------
-    with st.expander("Filtrer le diagramme de Gantt", expanded=False):
-        st.markdown("### Filtres Gantt")
+    with st.expander("Filter Gantt Chart", expanded=False):
+        st.markdown("### Gantt Chart Filters")
         available_groups_gantt = sorted(
             [int(g) for g in gantt_df["Concurrency_Group"].dropna().unique()],
             key=int,
         )
         selected_groups_gantt = st.multiselect(
-            "Groupes (Concurrency_Group) à afficher (Gantt)",
+            "Groups (Concurrency_Group) to display (Gantt)",
             options=available_groups_gantt,
             default=available_groups_gantt,
             key="gantt_groups",
-            help="Choisissez un ou plusieurs groupes ; les autres seront masqués.",
+            help="Choose one or more groups; others will be hidden.",
         )
         available_tasks_gantt = (
             gantt_df[gantt_df["Concurrency_Group"].isin(selected_groups_gantt)]["Document"].astype(str).tolist()
         )
         selected_tasks_gantt = st.multiselect(
-            "Tâches (Document) à afficher – facultatif (Gantt)",
+            "Tasks (Document) to display – optional (Gantt)",
             options=available_tasks_gantt,
             default=available_tasks_gantt,
             key="gantt_tasks",
-            help="Affinez encore la vue en sélectionnant des documents précis.",
+            help="Further refine the view by selecting specific documents.",
         )
 
     gantt_df_filtered = gantt_df[
@@ -271,20 +271,23 @@ def main() -> None:
     # ------------------------------------------------------------------
     # Optional detailed table
     # ------------------------------------------------------------------
-    with st.expander("Afficher le tableau des tâches calculées"):
-        st.dataframe(
-            gantt_df_filtered[
-                [
-                    "Step_No",
-                    "Document",
-                    "Start",
-                    "Finish",
-                    "Prep_Days",
-                    "Predecessor",
-                    "Concurrency_Group",
-                ]
-            ]
-        )
+    with st.expander("Show calculated tasks table"):
+        df_to_show = pd.DataFrame(gantt_df_filtered[[
+            "Step_No",
+            "Document",
+            "Start",
+            "Finish",
+            "Prep_Days",
+            "Predecessor",
+            "Concurrency_Group",
+        ]])
+        df_to_show = df_to_show.rename(columns={
+            "Step_No": "Step No",
+            "Prep_Days": "Preparation Days",
+            "Predecessor": "Predecessor",
+            "Concurrency_Group": "Concurrent step",
+        })
+        st.dataframe(df_to_show)
 
     # ------------------------------------------------------------------
     # Gantt chart
@@ -300,7 +303,15 @@ def main() -> None:
         y="Document",
         color="Concurrency_Group",
         color_discrete_map=color_map,
-        labels={"Concurrency_Group": "Etape simultanée"},
+        labels={
+            "Concurrency_Group": "Concurrent step",
+            "Step_No": "Step No",
+            "Prep_Days": "Preparation Days",
+            "Start": "Start",
+            "Finish": "Finish",
+            "Document": "Document",
+            "Predecessor": "Predecessor",
+        },
         hover_data={
             "Step_No": True,
             "Prep_Days": True,
@@ -309,7 +320,7 @@ def main() -> None:
             "Concurrency_Group": True,
             "Predecessor": True,
         },
-        title="Diagramme de Gantt – Projet",
+        title="Gantt Chart – Project",
     )
     fig.update_yaxes(autorange="reversed")
     fig.update_layout(
@@ -324,31 +335,31 @@ def main() -> None:
     # ------------------------------------------------------------------
     # Eisenhower metrics + chart
     # ------------------------------------------------------------------
-    st.subheader("Matrice d’Eisenhower – Priorisation des tâches")
+    st.subheader("Eisenhower Matrix – Task Prioritization")
     gantt_df_eisen = eisenhower_metrics(gantt_df)
 
-    with st.expander("Filtrer la matrice d'Eisenhower", expanded=False):
-        st.markdown("### Filtres Eisenhower")
+    with st.expander("Filter Eisenhower Matrix", expanded=False):
+        st.markdown("### Eisenhower Filters")
         available_groups_eisen = sorted(
             [int(g) for g in gantt_df_eisen["Concurrency_Group"].dropna().unique()],
             key=int,
         )
         selected_groups_eisen = st.multiselect(
-            "Groupes (Concurrency_Group) à afficher (Eisenhower)",
+            "Groups (Concurrency_Group) to display (Eisenhower)",
             options=available_groups_eisen,
             default=available_groups_eisen,
             key="eisen_groups",
-            help="Choisissez un ou plusieurs groupes pour la matrice.",
+            help="Choose one or more groups for the matrix.",
         )
         available_tasks_eisen = (
             gantt_df_eisen[gantt_df_eisen["Concurrency_Group"].isin(selected_groups_eisen)]["Document"].astype(str).tolist()
         )
         selected_tasks_eisen = st.multiselect(
-            "Tâches (Document) à afficher – facultatif (Eisenhower)",
+            "Tasks (Document) to display – optional (Eisenhower)",
             options=available_tasks_eisen,
             default=available_tasks_eisen,
             key="eisen_tasks",
-            help="Affinez la matrice en sélectionnant des documents précis.",
+            help="Further refine the matrix by selecting specific documents.",
         )
 
     gantt_df_eisen_filtered = gantt_df_eisen[
@@ -356,21 +367,26 @@ def main() -> None:
         & gantt_df_eisen["Document"].isin(selected_tasks_eisen)
     ].copy()
 
-    with st.expander("Afficher le tableau Eisenhower détaillé"):
-        st.dataframe(
-            gantt_df_eisen_filtered[
-                [
-                    "Step_No",
-                    "Document",
-                    "Prep_Days",
-                    "Slack_Days",
-                    "Urgence",
-                    "Importance",
-                    "Quadrant",
-                    "Concurrency_Group",
-                ]
-            ]
-        )
+    with st.expander("Show detailed Eisenhower table"):
+        df_eisen_to_show = pd.DataFrame(gantt_df_eisen_filtered[[
+            "Step_No",
+            "Document",
+            "Prep_Days",
+            "Slack_Days",
+            "Urgence",
+            "Importance",
+            "Quadrant",
+            "Concurrency_Group",
+        ]])
+        df_eisen_to_show = df_eisen_to_show.rename(columns={
+            "Step_No": "Step No",
+            "Prep_Days": "Preparation Days",
+            "Slack_Days": "Slack Days",
+            "Urgence": "Urgency (0–10)",
+            "Quadrant": "Quadrant",
+            "Concurrency_Group": "Concurrent step",
+        })
+        st.dataframe(df_eisen_to_show)
 
     fig_eisen = px.scatter(
         gantt_df_eisen_filtered,
@@ -380,10 +396,10 @@ def main() -> None:
         color="Quadrant",
         category_orders={
             "Quadrant": [
-                "Q1 Faire maintenant",
-                "Q2 Planifier",
-                "Q3 Déléguer",
-                "Q4 Éliminer",
+                "Q1 Do now",
+                "Q2 Plan",
+                "Q3 Delegate",
+                "Q4 Eliminate",
             ]
         },
         hover_data={
@@ -395,7 +411,18 @@ def main() -> None:
             "Finish": True,
             "Quadrant": False,
         },
-        labels={"Urgence": "Urgence (0–10)", "Importance": "Importance (0–10)"},
+        labels={
+            "Urgence": "Urgency (0–10)",
+            "Importance": "Importance (0–10)",
+            "Step_No": "Step No",
+            "Prep_Days": "Preparation Days",
+            "Slack_Days": "Slack Days",
+            "Quadrant": "Quadrant",
+            "Concurrency_Group": "Concurrent step",
+            "Start": "Start",
+            "Finish": "Finish",
+            "Document": "Document",
+        },
         title="Matrice d’Eisenhower",
         range_x=[-1, 11],
         range_y=[-1, 11],
