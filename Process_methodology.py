@@ -14,7 +14,7 @@ PROCESS_CSV = {
     "MAA – new active substance (centralised)": "DayDataMaa.csv",
     "Variation Type IA / IB (centralised)": "DayDataVariationTypeIAIB.csv",
     "Variation Type II (quality or new indication)": "DayDataVariationType2.csv",
-    "MAA extension (new form / strength)": "DayDataExtensionMaa.csv",
+    "FDA (new form / strength)": "DayDataFDAMaa.csv",
 }
 
 
