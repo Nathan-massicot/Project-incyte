@@ -1,0 +1,140 @@
+Step_No,Document,Prep_Days,Finish_Days_Before_J0,Predecessor,Concurrency_Group,Department,Role,Role_Description,Allocated_FTE,Allocated_FTE_Days
+1,General Kick-off meeting,1,365,,1,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.6,0.6
+1,General Kick-off meeting,1,365,,1,Regulatory Affairs,Global Regulatory Lead,"Manages PIP, orphan drug status, PRIME, and compliance checks",0.3,0.3
+1,General Kick-off meeting,1,365,,1,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,0.2
+2,Content Plan (documents list) prepared,14,300,1.0,2,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,2.8
+2,Content Plan (documents list) prepared,14,300,1.0,2,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,2.8
+3,Target Product Profile finalized,60,360,1.0,3,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,12.0
+3,Target Product Profile finalized,60,360,1.0,3,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,12.0
+4,Centralised Procedure Eligibility Request,60,240,,1,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,12.0
+4,Centralised Procedure Eligibility Request,60,240,,1,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,12.0
+5,Letter of Intent sent to EMA,14,210,4.0,1,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,2.8
+5,Letter of Intent sent to EMA,14,210,4.0,1,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,2.8
+6,Pre-submission meeting with Rapporteurs,30,180,5.0,1,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.6,18.0
+6,Pre-submission meeting with Rapporteurs,30,180,5.0,1,Regulatory Affairs,Global Regulatory Lead,"Manages PIP, orphan drug status, PRIME, and compliance checks",0.3,9.0
+6,Pre-submission meeting with Rapporteurs,30,180,5.0,1,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,6.0
+7,EMA pre-submission meeting,30,150,5.0,1,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.6,18.0
+7,EMA pre-submission meeting,30,150,5.0,1,Regulatory Affairs,Global Regulatory Lead,"Manages PIP, orphan drug status, PRIME, and compliance checks",0.3,9.0
+7,EMA pre-submission meeting,30,150,5.0,1,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,6.0
+8,Paediatric Investigation Plan (PIP) agreed,270,60,,1,Regulatory Affairs,Global Regulatory Lead,"Manages PIP, orphan drug status, PRIME, and compliance checks",0.4,108.0
+8,Paediatric Investigation Plan (PIP) agreed,270,60,,1,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.4,108.0
+8,Paediatric Investigation Plan (PIP) agreed,270,60,,1,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,54.0
+9,Orphan Drug Designation granted,120,90,,1,Regulatory Affairs,Global Regulatory Lead,"Manages PIP, orphan drug status, PRIME, and compliance checks",0.3,36.0
+9,Orphan Drug Designation granted,120,90,,1,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.3,36.0
+9,Orphan Drug Designation granted,120,90,,1,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,24.0
+10,Invented name approval (EMA NRG),120,90,,1,Regulatory Affairs,Labeling,"Manages SmPC, PIL, labeling, QRD coordination, and linguistic reviews",0.3,36.0
+10,Invented name approval (EMA NRG),120,90,,1,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,24.0
+10,Invented name approval (EMA NRG),120,90,,1,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,24.0
+11,IDMP data readiness achieved,120,0,,1,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,24.0
+11,IDMP data readiness achieved,120,0,,1,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,24.0
+12,ATC code request submitted,180,0,,1,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,36.0
+12,ATC code request submitted,180,0,,1,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,36.0
+13,Final nonclinical pharmacology study report,1,180,,2,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,0.2
+14,Final toxicokinetic/pharmacokinetic study report,1,180,,2,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,0.2
+14,Final toxicokinetic/pharmacokinetic study report,1,180,,2,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,0.2
+15,Final toxicology study report,1,180,,2,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,0.2
+15,Final toxicology study report,1,180,,2,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,0.2
+16,Final clinical study report (last pivotal study),1,135,,2,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,0.2
+17,Population PK analysis report,60,90,16.0,3,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,12.0
+17,Population PK analysis report,60,90,16.0,3,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,12.0
+18,Integrated Summary of Safety (ISS),60,90,16.0,3,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,12.0
+18,Integrated Summary of Safety (ISS),60,90,16.0,3,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,12.0
+19,Integrated Summary of Efficacy (ISE),60,90,16.0,3,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,12.0
+19,Integrated Summary of Efficacy (ISE),60,90,16.0,3,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,12.0
+20,Integrated Summary of Immunogenicity,30,90,16.0,3,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,6.0
+20,Integrated Summary of Immunogenicity,30,90,16.0,3,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,6.0
+21,Summary of Biopharmaceutic Studies (Module 2.7.1),15,90,,4,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,3.0
+22,Summary of Clinical Pharmacology (Module 2.7.2),30,90,,4,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,6.0
+23,Summary of Clinical Efficacy (Module 2.7.3),45,90,16.0,4,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,9.0
+24,Summary of Clinical Safety (Module 2.7.4),45,90,16.0,4,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,9.0
+25,Clinical Overview (Module 2.5),30,60,18.0,5,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,6.0
+26,Clinical literature references compiled (Module 2.7.5),5,60,25.0,5,Regulatory Affairs,Labeling,"Manages SmPC, PIL, labeling, QRD coordination, and linguistic reviews",0.6,3.0
+26,Clinical literature references compiled (Module 2.7.5),5,60,25.0,5,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,1.0
+27,Clinical study synopses finalized (Module 2.7.6),10,90,16.0,5,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,2.0
+28,Nonclinical Introduction (Module 2.6.1),2,90,,6,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,0.4
+29,Nonclinical Written Summary – Pharmacology (Module 2.6.2),15,90,13.0,6,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,3.0
+30,Nonclinical Tabulated Summary – Pharmacology (Module 2.6.3),10,90,13.0,6,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,2.0
+31,Nonclinical Written Summary – Pharmacokinetics (Module 2.6.4),15,90,14.0,6,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,3.0
+32,Nonclinical Tabulated Summary – Pharmacokinetics (Module 2.6.5),10,90,14.0,6,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,2.0
+33,Nonclinical Written Summary – Toxicology (Module 2.6.6),30,90,15.0,6,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,6.0
+34,Nonclinical Tabulated Summary – Toxicology (Module 2.6.7),15,90,15.0,6,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,3.0
+35,Nonclinical Overview (Module 2.4),30,60,33.0,6,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,6.0
+36,Nonclinical literature references compiled (Module 4.3),5,60,35.0,6,Regulatory Affairs,Labeling,"Manages SmPC, PIL, labeling, QRD coordination, and linguistic reviews",0.6,3.0
+36,Nonclinical literature references compiled (Module 4.3),5,60,35.0,6,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,1.0
+37,GMP Clearance (for manufacturing sites),90,90,,7,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,18.0
+37,GMP Clearance (for manufacturing sites),90,90,,7,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,18.0
+38,GMP Certificates (from manufacturing sites),90,90,,7,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,18.0
+38,GMP Certificates (from manufacturing sites),90,90,,7,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,18.0
+39,Manufacturing Authorisations collected,30,90,,7,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,6.0
+39,Manufacturing Authorisations collected,30,90,,7,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,6.0
+40,Manufacturing Process Flow Chart completed,14,90,,7,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,2.8
+40,Manufacturing Process Flow Chart completed,14,90,,7,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,2.8
+41,3.2.S.1 Drug Substance: General Information section,10,90,,8,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,2.0
+41,3.2.S.1 Drug Substance: General Information section,10,90,,8,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,2.0
+42,3.2.S.2 Drug Substance: Manufacture section,45,90,,8,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,9.0
+42,3.2.S.2 Drug Substance: Manufacture section,45,90,,8,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,9.0
+43,3.2.S.3 Drug Substance: Characterisation section,30,90,,8,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,6.0
+43,3.2.S.3 Drug Substance: Characterisation section,30,90,,8,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,6.0
+44,3.2.S.4 Drug Substance: Control of Drug Substance section,45,90,,8,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,9.0
+44,3.2.S.4 Drug Substance: Control of Drug Substance section,45,90,,8,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,9.0
+45,3.2.S.5 Drug Substance: Reference Standards section,7,90,,8,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,1.4
+45,3.2.S.5 Drug Substance: Reference Standards section,7,90,,8,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,1.4
+46,3.2.S.6 Drug Substance: Container Closure System section,7,90,,8,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,1.4
+46,3.2.S.6 Drug Substance: Container Closure System section,7,90,,8,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,1.4
+47,3.2.S.7 Drug Substance: Stability section,30,90,,8,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,6.0
+47,3.2.S.7 Drug Substance: Stability section,30,90,,8,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,6.0
+48,3.2.P.1 Drug Product: Description and Composition section,7,90,,8,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,1.4
+48,3.2.P.1 Drug Product: Description and Composition section,7,90,,8,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,1.4
+49,3.2.P.2 Drug Product: Pharmaceutical Development section,60,90,,8,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,12.0
+49,3.2.P.2 Drug Product: Pharmaceutical Development section,60,90,,8,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,12.0
+50,3.2.P.3 Drug Product: Manufacture section,30,90,,8,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,6.0
+50,3.2.P.3 Drug Product: Manufacture section,30,90,,8,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,6.0
+51,3.2.P.4 Drug Product: Control of Excipients section,10,90,,8,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,2.0
+51,3.2.P.4 Drug Product: Control of Excipients section,10,90,,8,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,2.0
+52,3.2.P.5 Drug Product: Control of Drug Product section,45,90,,8,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,9.0
+52,3.2.P.5 Drug Product: Control of Drug Product section,45,90,,8,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,9.0
+53,3.2.P.6 Drug Product: Reference Standards section,5,90,,8,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,1.0
+53,3.2.P.6 Drug Product: Reference Standards section,5,90,,8,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,1.0
+54,3.2.P.7 Drug Product: Container Closure System section,7,90,,8,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,1.4
+54,3.2.P.7 Drug Product: Container Closure System section,7,90,,8,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,1.4
+55,3.2.P.8 Drug Product: Stability section,30,90,,8,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,6.0
+55,3.2.P.8 Drug Product: Stability section,30,90,,8,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,6.0
+56,3.2.A.1 Appendices: Facilities and Equipment,14,90,,8,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,2.8
+56,3.2.A.1 Appendices: Facilities and Equipment,14,90,,8,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,2.8
+57,3.2.A.2 Appendices: Adventitious Agents Safety,30,90,,8,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,6.0
+57,3.2.A.2 Appendices: Adventitious Agents Safety,30,90,,8,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,6.0
+58,3.2.R Regional Information section completed,10,90,39.0,8,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,2.0
+58,3.2.R Regional Information section completed,10,90,39.0,8,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,2.0
+59,Quality Overall Summary – Introduction (Module 2.3.1),3,60,,9,Regulatory Affairs,Regulatory CMC,"Leads Module 3 (quality) strategy, variation plans, and justifications",0.8,2.4
+59,Quality Overall Summary – Introduction (Module 2.3.1),3,60,,9,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,0.6
+60,Quality Overall Summary – Drug Substance (Module 2.3.S),15,60,47.0,9,Regulatory Affairs,Regulatory CMC,"Leads Module 3 (quality) strategy, variation plans, and justifications",0.8,12.0
+60,Quality Overall Summary – Drug Substance (Module 2.3.S),15,60,47.0,9,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,3.0
+61,Quality Overall Summary – Drug Product (Module 2.3.P),15,60,55.0,9,Regulatory Affairs,Regulatory CMC,"Leads Module 3 (quality) strategy, variation plans, and justifications",0.8,12.0
+61,Quality Overall Summary – Drug Product (Module 2.3.P),15,60,55.0,9,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,3.0
+62,Quality Overall Summary – Appendices (Module 2.3.A),5,60,57.0,9,Regulatory Affairs,Regulatory CMC,"Leads Module 3 (quality) strategy, variation plans, and justifications",0.8,4.0
+62,Quality Overall Summary – Appendices (Module 2.3.A),5,60,57.0,9,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,1.0
+63,Quality Overall Summary – Regional Information (Module 2.3.R),5,60,58.0,9,Regulatory Affairs,Regulatory CMC,"Leads Module 3 (quality) strategy, variation plans, and justifications",0.8,4.0
+63,Quality Overall Summary – Regional Information (Module 2.3.R),5,60,58.0,9,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,1.0
+64,Company Core Data Sheet (CCDS) finalized,60,120,,9,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,12.0
+64,Company Core Data Sheet (CCDS) finalized,60,120,,9,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,12.0
+65,Risk Management Plan (RMP),60,30,18.0,10,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,12.0
+66,EU SmPC (Product Information) draft,45,30,64.0,10,Regulatory Affairs,Labeling,"Manages SmPC, PIL, labeling, QRD coordination, and linguistic reviews",0.5,22.5
+66,EU SmPC (Product Information) draft,45,30,64.0,10,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,9.0
+67,Messaging alignment meeting,1,30,25.0,10,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.6,0.6
+67,Messaging alignment meeting,1,30,25.0,10,Regulatory Affairs,Global Regulatory Lead,"Manages PIP, orphan drug status, PRIME, and compliance checks",0.3,0.3
+67,Messaging alignment meeting,1,30,25.0,10,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,0.2
+68,Application Form (eAF) completed,14,7,11.0,10,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.6,8.4
+68,Application Form (eAF) completed,14,7,11.0,10,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.4,5.6
+69,Cover Letter for MAA submission,5,7,66.0,10,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,1.0
+69,Cover Letter for MAA submission,5,7,66.0,10,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,1.0
+70,Product Artwork and Mock-ups ready,30,7,66.0,10,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,6.0
+70,Product Artwork and Mock-ups ready,30,7,66.0,10,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,6.0
+71,Compilation of eCTD dossier,14,2,69.0,11,Regulatory Affairs,Labeling,"Manages SmPC, PIL, labeling, QRD coordination, and linguistic reviews",0.6,8.4
+71,Compilation of eCTD dossier,14,2,69.0,11,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,2.8
+72,Validation and dispatch of MAA to EMA,2,0,71.0,12,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",1.0,2.0
+73,Final internal review and sign-off,2,0,71.0,13,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,0.4
+73,Final internal review and sign-off,2,0,71.0,13,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,0.4
+74,EMA confirmation of submission receipt,1,0,72.0,14,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,0.2
+74,EMA confirmation of submission receipt,1,0,72.0,14,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,0.2
+75,Post-submission follow-up activities,5,0,74.0,15,Regulatory Affairs,Regulatory Strategist (Global/EU),"Defines submission strategy, timelines, and interactions with EMA/CHMP",0.2,1.0
+75,Post-submission follow-up activities,5,0,74.0,15,Regulatory Affairs,Regulatory Operations,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management",0.2,1.0

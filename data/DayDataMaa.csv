@@ -1,8 +1,8 @@
 Step_No,Document,Prep_Days,Finish_Days_Before_J0,Predecessor,Concurrency_Group
 1,General Kick-off meeting,1,365,,1
-2,Content Plan (documents list) prepared,14,300,1,1
-3,Target Product Profile finalized,60,360,1,1
-4,Centralised Procedure Eligibility Request,60,240,,1
+2,Content Plan (documents list) prepared,14,300,1,2
+3,Target Product Profile finalized,60,360,1,3
+4,Centralised Procedure Eligibility Request,60,240,,4
 5,Letter of Intent sent to EMA,14,210,4,1
 6,Pre-submission meeting with Rapporteurs,30,180,5,1
 7,EMA pre-submission meeting,30,150,5,1

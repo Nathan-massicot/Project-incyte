@@ -5,15 +5,18 @@ from datetime import datetime, timedelta
 import pandas as pd
 import plotly.express as px
 import streamlit as st
+import plotly.graph_objects as go
+from plotly.graph_objects import Figure, Scatter
+
 
 # ------------------------------------------------------------------
 # Mapping "process label" -> CSV file
 # ------------------------------------------------------------------
 PROCESS_CSV = {
-    "MAA – new active substance (centralised)": "DayDataMaa.csv",
-    "Variation Type IA / IB (centralised)": "DayDataVariationTypeIAIB.csv",
-    "Variation Type II (quality or new indication)": "DayDataVariationType2.csv",
-    "FDA (new form / strength)": "DayDataFDAMaa.csv",
+    "MAA – new active substance (centralised)": "data/DayDataMaa.csv",
+    "Variation Type IA / IB (centralised)": "data/DayDataVariationTypeIAIB.csv",
+    "Variation Type II (quality or new indication)": "data/DayDataVariationType2.csv",
+    "FDA (new form / strength)": "data/DayDataFDAMaa.csv",
 }
 
 # ------------------------------------------------------------------
@@ -163,70 +166,74 @@ def main() -> None:
     st.set_page_config(page_title="Gantt Chart – Process Tracking", layout="wide")
     st.title("Regulatory Process Tracking & Gantt Chart")
 
-    with st.expander("Options", expanded=True):
-        # 1. Dataset selection
-        process = st.selectbox("Choose process type", list(PROCESS_CSV.keys()))
-        df = load_data(process)
+    # Hardcode process selection: take the first process in PROCESS_CSV
+    process = list(PROCESS_CSV.keys())[0]
+    df = load_data(process)
 
-        # 2. Date J0 input
-        planning_mode = st.radio(
-            "Planning anchor point",
-            ["Use J0 as submission date (classic)", "Use custom project start date"],
-            index=0,
-        )
+    # Hardcode anchor date as today
+    anchor_date = datetime.today().date()
+    anchor_datetime = datetime.combine(anchor_date, datetime.min.time())
 
-        anchor_date = st.date_input(
-            "Select anchor date (J0 or start)",
-            value=datetime.today(),
-        )
+    # Hardcode planning mode to "Use J0 as submission date (classic)"
+    reverse_from_j0 = True
 
-        if isinstance(anchor_date, tuple) or anchor_date is None:
-            st.error("❌ Veuillez sélectionner une seule date valide.")
-            st.stop()
-
-        anchor_datetime = datetime.combine(anchor_date, datetime.min.time())
-        reverse_from_j0 = planning_mode.startswith("Use J0")
-
-        # 3. Compute schedule
-        gantt_df = compute_schedule(
-            df,
-            anchor_datetime if reverse_from_j0 else anchor_datetime + timedelta(days=365)
-        )
-
-        # 4. Optional filtering
-        if st.checkbox("Enable Gantt filters", value=False):
-            safe_groups = [
-                int(g) for g in gantt_df["Concurrency_Group"].dropna().unique()
-                if str(g).isdigit()
-            ]
-            selected_groups = st.multiselect("Groups to display", options=safe_groups, default=safe_groups)
-
-            available_tasks = gantt_df[
-                gantt_df["Concurrency_Group"].isin(selected_groups)
-            ]["Document"].astype(str).tolist()
-
-            selected_tasks = st.multiselect("Tasks to display", options=available_tasks, default=available_tasks)
-
-            gantt_df = gantt_df[
-                gantt_df["Concurrency_Group"].isin(selected_groups)
-                & gantt_df["Document"].isin(selected_tasks)
-            ]
-
-    # ---------- GANTT CHART ----------
-    gantt_df["Concurrency_Group"] = gantt_df["Concurrency_Group"].astype(str)
-    color_map = {g: GROUP_COLOR_MAP.get(g, "#111111") for g in gantt_df["Concurrency_Group"].unique()}
-
-    fig = px.timeline(
-        gantt_df,
-        x_start="Start", x_end="Finish", y="Document",
-        color="Concurrency_Group",
-        color_discrete_map=color_map,
-        title="📊 Gantt Chart – Project Timeline",
-        hover_data={"Step_No": True, "Prep_Days": True, "Start": True, "Finish": True,
-                    "Concurrency_Group": True, "Predecessor": True},
+    # Compute schedule
+    gantt_df = compute_schedule(
+        df,
+        anchor_datetime if reverse_from_j0 else anchor_datetime + timedelta(days=365)
     )
-    fig.update_yaxes(autorange="reversed")
-    fig.update_layout(height=600, margin=dict(l=0, r=20, t=40, b=0))
+
+    # No filters, show all tasks
+    # ---------- GANTT CHART ----------
+    from plotly.graph_objects import Figure, Scatter
+
+    # Tri des tâches pour afficher dans le bon ordre
+    gantt_df_sorted = gantt_df.sort_values(by="Start", ascending=True).reset_index(drop=True)
+
+    # 🔧 Ajout des couleurs locales
+    gantt_df_sorted["Concurrency_Group"] = gantt_df_sorted["Concurrency_Group"].astype(str)
+    color_map = {g: GROUP_COLOR_MAP.get(g, "#888888") for g in gantt_df_sorted["Concurrency_Group"].unique()}
+
+    # Définir la hauteur de chaque barre (reduced for tinier display)
+    bar_height = 0.05
+    y_positions = list(range(len(gantt_df_sorted)))
+
+    # Construire manuellement le Gantt
+    fig = Figure()
+
+    for i, (_, row) in enumerate(gantt_df_sorted.iterrows()):
+        fig.add_trace(Scatter(
+            x=[row["Start"], row["Finish"]],
+            y=[i, i],
+            mode='lines',
+            line=dict(color=color_map.get(str(row["Concurrency_Group"]), "#888888"), width=5),
+            hovertemplate=(
+                f"<b>{row['Document']}</b><br>"
+                f"Start: {row['Start'].date()}<br>"
+                f"Finish: {row['Finish'].date()}<br>"
+                f"Duration: {row['Prep_Days']} days<br>"
+                f"Group: {row['Concurrency_Group']}<extra></extra>"
+            ),
+            name=row["Document"],
+            showlegend=False
+        ))
+
+    # Mettre les noms de tâches sur l’axe Y
+    fig.update_yaxes(
+        tickvals=list(range(len(gantt_df_sorted))),
+        ticktext=gantt_df_sorted["Document"],
+        autorange='reversed',
+        tickfont=dict(size=9),
+    )
+
+    fig.update_layout(
+        title="📊 Gantt Chart – Project Timeline",
+        height=max(200, 8 * len(gantt_df_sorted)),  # reduced height for tinier display
+        margin=dict(l=250, r=20, t=40, b=40),
+        xaxis_title="Date",
+        yaxis_title="Tasks",
+    )
+
     st.plotly_chart(fig, use_container_width=True)
 
     # ---------- Project Duration ----------
@@ -357,4 +364,3 @@ def main() -> None:
 
 if __name__ == "__main__":  # pragma: no cover
     main()
-    
