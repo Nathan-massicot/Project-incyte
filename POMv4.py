@@ -14,7 +14,7 @@ from plotly.graph_objects import Figure, Scatter
 # ------------------------------------------------------------------
 PROCESS_CSV = {
     "MAA Modules agregated": "data/DayDataMaav6_Modules_aggregated.csv",
-    "MAA": "data/DayDataMaav6.csv",
+    "MAA": "data/DayDataMaaV6.csv",
     
 }
 
