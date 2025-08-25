@@ -1,4 +1,4 @@
-Task_ID,Step_No,Document,Role,Predecessors,O_Days,M_Days,P_Days,Use_PERT,Effort_Days,Notes
+Task_ID,Step_No,Task,Role,Predecessors,O_Days,M_Days,P_Days,Use_PERT,Effort_Days,Notes
 1,1,General Kick-off meeting,Regulatory Strategist (Global/EU),,1,1,1,Y,0.6,"Defines submission strategy, timelines, and interactions with EMA/CHMP"
 2,1,General Kick-off meeting,Global Regulatory Lead,,1,1,1,Y,0.3,"Manages PIP, orphan drug status, PRIME, and compliance checks"
 3,1,General Kick-off meeting,Regulatory Operations,,1,1,1,Y,0.2,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management"
@@ -136,5 +136,5 @@ Task_ID,Step_No,Document,Role,Predecessors,O_Days,M_Days,P_Days,Use_PERT,Effort_
 135,73,Final internal review and sign-off,Regulatory Operations,71FS+0d,1,2,3,Y,0.4,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management"
 136,74,EMA confirmation of submission receipt,Regulatory Strategist (Global/EU),72FS+0d,1,1,1,Y,0.2,"Defines submission strategy, timelines, and interactions with EMA/CHMP"
 137,74,EMA confirmation of submission receipt,Regulatory Operations,72FS+0d,1,1,1,Y,0.2,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management"
-138,75,Post-submission follow-up activities,Regulatory Strategist (Global/EU),74FS+0d,4,5,7,Y,1.0,"Defines submission strategy, timelines, and interactions with EMA/CHMP"
-139,75,Post-submission follow-up activities,Regulatory Operations,74FS+0d,4,5,7,Y,1.0,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management"
+138,75,Post-submission follow-up activities,Regulatory Strategist (Global/EU),74FS+21d,4,5,7,Y,1.0,"Defines submission strategy, timelines, and interactions with EMA/CHMP"
+139,75,Post-submission follow-up activities,Regulatory Operations,74FS+21d,4,5,7,Y,1.0,"Compiles eCTD, performs technical validation, manages gateway submissions, and lifecycle management"

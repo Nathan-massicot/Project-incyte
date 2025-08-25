@@ -1,0 +1,83 @@
+
+
+Task_ID,Step_No,Task,Role,dispatch_date,O_Days,M_Days,P_Days,Use_PERT,Effort_Days,Notes,Milestones
+1,1,Project Kickoff,Project Manager,2024-01-01,1,2,3,Yes,2,Initial project meeting,0
+2,2,Define Project Scope,Project Manager,2024-01-02,2,3,4,Yes,3,Clarify goals and deliverables,0
+3,3,Identify Stakeholders,Project Manager,2024-01-03,1,2,3,Yes,2,Stakeholder analysis,0
+4,4,Develop Project Charter,Project Manager,2024-01-04,2,4,6,Yes,4,Charter document draft,0
+5,5,Review Charter with Team,Project Manager,2024-01-06,1,2,3,Yes,2,Team feedback on charter,0
+6,6,Get Charter Approval,Steering Committee,2024-01-08,1,2,3,Yes,2,Charter signed off,1
+7,7,Develop Work Breakdown Structure,Project Manager,2024-01-09,2,3,5,Yes,3,Define WBS,0
+8,8,Define Activities,Project Manager,2024-01-11,1,2,3,Yes,2,Activity list,0
+9,9,Sequence Activities,Project Manager,2024-01-12,1,2,3,Yes,2,Dependencies defined,0
+10,10,Estimate Resources,Project Manager,2024-01-13,1,2,3,Yes,2,Resource requirements,0
+11,11,Estimate Durations,Project Manager,2024-01-14,1,2,3,Yes,2,Duration estimates,0
+12,12,Develop Schedule,Project Manager,2024-01-15,2,4,6,Yes,4,Project timeline,0
+13,13,Review Schedule with Team,Project Manager,2024-01-17,1,2,3,Yes,2,Schedule feedback,0
+14,14,Get Schedule Approval,Steering Committee,2024-01-18,1,2,3,Yes,2,Schedule signed off,1
+15,15,Develop Budget,Finance,2024-01-19,2,3,5,Yes,3,Cost estimates,0
+16,16,Review Budget,Project Manager,2024-01-21,1,2,3,Yes,2,Budget feedback,0
+17,17,Get Budget Approval,Steering Committee,2024-01-22,1,2,3,Yes,2,Budget signed off,1
+18,18,Develop Risk Management Plan,Project Manager,2024-01-23,2,3,5,Yes,3,Risk plan draft,0
+19,19,Identify Risks,Project Manager,2024-01-25,1,2,3,Yes,2,Risk register,0
+20,20,Analyze Risks,Project Manager,2024-01-26,1,2,3,Yes,2,Qualitative/quantitative analysis,0
+21,21,Plan Risk Responses,Project Manager,2024-01-27,1,2,3,Yes,2,Mitigation strategies,0
+22,22,Finalize Risk Plan,Project Manager,2024-01-28,1,2,3,Yes,2,Final risk plan,0
+23,23,Develop Communication Plan,Project Manager,2024-01-29,2,3,4,Yes,3,Communication matrix,0
+24,24,Review Communication Plan,Project Manager,2024-01-31,1,2,3,Yes,2,Plan feedback,0
+25,25,Get Communication Plan Approval,Steering Committee,2024-02-01,1,2,3,Yes,2,Plan signed off,1
+26,26,Develop Procurement Plan,Project Manager,2024-02-02,2,3,4,Yes,3,Procurement strategy,0
+27,27,Identify Vendors,Procurement,2024-02-04,1,2,3,Yes,2,Vendor shortlist,0
+28,28,Request Vendor Proposals,Procurement,2024-02-05,1,2,3,Yes,2,RFP sent,0
+29,29,Review Vendor Proposals,Procurement,2024-02-06,2,3,4,Yes,3,Proposal evaluation,0
+30,30,Select Vendor,Procurement,2024-02-08,1,2,3,Yes,2,Vendor chosen,0
+31,31,Negotiate Contract,Procurement,2024-02-09,2,3,5,Yes,3,Contract negotiation,0
+32,32,Sign Contract,Procurement,2024-02-11,1,2,3,Yes,2,Contract signed,1
+33,33,Develop Quality Management Plan,Project Manager,2024-02-12,2,3,4,Yes,3,Quality plan draft,0
+34,34,Review Quality Plan,Project Manager,2024-02-14,1,2,3,Yes,2,Plan feedback,0
+35,35,Get Quality Plan Approval,Steering Committee,2024-02-15,1,2,3,Yes,2,Plan signed off,1
+36,36,Develop Change Management Plan,Project Manager,2024-02-16,2,3,4,Yes,3,Change plan draft,0
+37,37,Review Change Plan,Project Manager,2024-02-18,1,2,3,Yes,2,Plan feedback,0
+38,38,Get Change Plan Approval,Steering Committee,2024-02-19,1,2,3,Yes,2,Plan signed off,1
+39,39,Hold Project Kickoff Meeting,Project Manager,2024-02-20,1,2,3,Yes,2,Team alignment,0
+40,40,Distribute Project Documents,Project Manager,2024-02-21,1,2,3,Yes,2,Documentation sent,0
+41,41,Assign Tasks to Team,Project Manager,2024-02-22,1,2,3,Yes,2,Task assignment,0
+42,42,Start Project Execution,Project Manager,2024-02-23,1,2,3,Yes,2,Work begins,1
+43,43,Monitor Progress,Project Manager,2024-02-24,2,4,6,Yes,4,Progress tracking,0
+44,44,Conduct Status Meetings,Project Manager,2024-02-26,1,2,3,Yes,2,Weekly meetings,0
+45,45,Update Project Schedule,Project Manager,2024-02-27,1,2,3,Yes,2,Schedule updates,0
+46,46,Manage Project Issues,Project Manager,2024-02-28,1,2,3,Yes,2,Issue log,0
+47,47,Manage Changes,Project Manager,2024-02-29,1,2,3,Yes,2,Change log,0
+48,48,Manage Risks,Project Manager,2024-03-01,1,2,3,Yes,2,Risk updates,0
+49,49,Manage Quality,Project Manager,2024-03-02,1,2,3,Yes,2,Quality checks,0
+50,50,Manage Communications,Project Manager,2024-03-03,1,2,3,Yes,2,Communication updates,0
+51,51,Manage Procurement,Procurement,2024-03-04,1,2,3,Yes,2,Vendor coordination,0
+52,52,Manage Stakeholder Engagement,Project Manager,2024-03-05,1,2,3,Yes,2,Stakeholder updates,0
+53,53,Manage Resources,Project Manager,2024-03-06,1,2,3,Yes,2,Resource allocation,0
+54,54,Conduct Mid-Project Review,Project Manager,2024-03-07,2,3,4,Yes,3,Midpoint evaluation,1
+55,55,Adjust Plans as Needed,Project Manager,2024-03-09,1,2,3,Yes,2,Plan revisions,0
+56,56,Continue Project Execution,Project Manager,2024-03-10,2,4,6,Yes,4,Work ongoing,0
+57,57,Monitor Progress,Project Manager,2024-03-12,1,2,3,Yes,2,Progress tracking,0
+58,58,Conduct Status Meetings,Project Manager,2024-03-13,1,2,3,Yes,2,Weekly meetings,0
+59,59,Update Project Schedule,Project Manager,2024-03-14,1,2,3,Yes,2,Schedule updates,0
+60,60,Manage Project Issues,Project Manager,2024-03-15,1,2,3,Yes,2,Issue log,0
+61,61,Manage Changes,Project Manager,2024-03-16,1,2,3,Yes,2,Change log,0
+62,62,Manage Risks,Project Manager,2024-03-17,1,2,3,Yes,2,Risk updates,0
+63,63,Manage Quality,Project Manager,2024-03-18,1,2,3,Yes,2,Quality checks,0
+64,64,Manage Communications,Project Manager,2024-03-19,1,2,3,Yes,2,Communication updates,0
+65,65,Manage Procurement,Procurement,2024-03-20,1,2,3,Yes,2,Vendor coordination,0
+66,66,Manage Stakeholder Engagement,Project Manager,2024-03-21,1,2,3,Yes,2,Stakeholder updates,0
+67,67,Manage Resources,Project Manager,2024-03-22,1,2,3,Yes,2,Resource allocation,0
+68,68,Prepare for Project Closure,Project Manager,2024-03-23,2,3,4,Yes,3,Closure checklist,0
+69,69,Confirm Deliverables Complete,Project Manager,2024-03-25,1,2,3,Yes,2,All deliverables done,1
+70,70,Obtain Client Acceptance,Client,2024-03-26,1,2,3,Yes,2,Client signoff,1
+71,71,Close Procurements,Procurement,2024-03-27,1,2,3,Yes,2,Contracts closed,0
+72,72,Release Resources,Project Manager,2024-03-28,1,2,3,Yes,2,Team released,0
+73,73,Archive Project Documents,Project Manager,2024-03-29,1,2,3,Yes,2,Documentation archived,0
+74,74,Conduct Lessons Learned,Project Manager,2024-03-30,2,3,4,Yes,3,Lessons learned session,0
+75,75,Prepare Final Project Report,Project Manager,2024-04-01,2,3,4,Yes,3,Final report,0
+76,76,Obtain Final Acceptance,Client,2024-04-03,1,2,3,Yes,2,Final client signoff,1
+77,77,Close Project,Project Manager,2024-04-04,1,2,3,Yes,2,Project closure,1
+78,78,Celebrate Success,Project Manager,2024-04-05,1,2,3,Yes,2,Team celebration,0
+79,79,Conduct Post-Implementation Review,Project Manager,2024-04-06,2,3,4,Yes,3,Review project outcomes,0
+80,80,Transition to Operations,Operations,2024-04-08,1,2,3,Yes,2,Hand over to ops team,0

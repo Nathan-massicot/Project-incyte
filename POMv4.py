@@ -2,6 +2,7 @@ import os
 import re
 from datetime import datetime, timedelta, date
 import math
+import csv
 
 import pandas as pd
 import plotly.express as px
@@ -12,7 +13,8 @@ from plotly.graph_objects import Figure, Scatter
 # Mapping "process label" -> CSV file (all in data/)
 # ------------------------------------------------------------------
 PROCESS_CSV = {
-    "MAA": "data/DayDataMaa_enriched_pert.csv",
+    "MAA": "data/DayDataMaav6.csv",
+    "MAA Modules agregated": "data/DayDataMaav6_Modules_aggregated.csv",
 }
 
 TEAMS_MAP_PATH = "data/Regulatory_Departments_and_Teams.csv"
@@ -27,18 +29,54 @@ def load_data(process_label: str) -> pd.DataFrame:
         st.error(f"CSV not found: {path}")
         st.stop()
 
-    df = pd.read_csv(path)
+    # Robust CSV loading to tolerate embedded commas/quotes in Notes and occasional bad lines
+    try:
+        # Use Python engine up front to avoid C-engine 'Skipping line' ParserWarnings
+        df = pd.read_csv(
+            path,
+            engine="python",
+            sep=",",
+            quotechar='"',
+            doublequote=True,
+            escapechar='\\',
+            on_bad_lines="warn",     # warn but do not drop silently
+            skipinitialspace=True,
+            encoding_errors="replace"
+        )
+    except Exception as e1:
+        try:
+            # Last resort: be permissive about separators (handles stray semicolons)
+            df = pd.read_csv(
+                path,
+                engine="python",
+                sep=None,  # auto-detect
+                quotechar='"',
+                doublequote=True,
+                escapechar='\\',
+                on_bad_lines="skip",
+                skipinitialspace=True,
+                encoding_errors="replace"
+            )
+        except Exception as e2:
+            st.error(f"Failed to read CSV {path}:\n1) {e1}\n2) {e2}")
+            st.stop()
     df.columns = [c.strip() for c in df.columns]
 
+    # --- Column compatibility aliasing (Task vs Document) ---
+    if "Task" in df.columns and "Document" not in df.columns:
+        df["Document"] = df["Task"]
+    elif "Document" in df.columns and "Task" not in df.columns:
+        df["Task"] = df["Document"]
+
     # Minimal columns (flexible: allow PERT or classic durations)
-    required_min = {"Step_No", "Document"}
+    required_min = {"Step_No", "Task"}
     miss_min = required_min - set(df.columns)
     if miss_min:
         st.error(f"Missing columns in {path}: {', '.join(sorted(miss_min))}")
         st.stop()
 
     # Ensure numeric types when present
-    for col in ["Task_ID", "Step_No", "Prep_Days", "O_Days", "M_Days", "P_Days"]:
+    for col in ["Task_ID", "Step_No", "Prep_Days", "O_Days", "M_Days", "P_Days", "dispatch_date"]:
         if col in df.columns:
             df[col] = pd.to_numeric(df[col], errors="coerce")
 
@@ -61,6 +99,12 @@ def load_data(process_label: str) -> pd.DataFrame:
     else:
         df["Effort_Days"] = pd.to_numeric(df["Effort_Days"], errors="coerce").fillna(0)
 
+    # Require dispatch_date for scheduling based on dispatch anchor
+    if "dispatch_date" not in df.columns:
+        st.error("Missing required column: dispatch_date")
+        st.stop()
+    df["dispatch_date"] = pd.to_numeric(df["dispatch_date"], errors="coerce").fillna(0).astype(int)
+
     # Filters columns
     if "Department" not in df.columns:
         df["Department"] = pd.NA
@@ -73,12 +117,22 @@ def load_data(process_label: str) -> pd.DataFrame:
     df["Concurrency_Group"] = pd.to_numeric(df["Concurrency_Group"], errors="coerce").fillna(1).astype(int)
 
     # Clean strings
-    for c in ["Department", "Role", "Document"]:
+    for c in ["Department", "Role", "Task", "Notes"]:
         if c in df.columns:
             df[c] = df[c].astype(str).str.strip()
 
+    # --- Milestones column (flexible casing) ---
+    # Normalize to a single column named "Milestones" with integer 0/1 values
+    if "Milestones" not in df.columns and "milestones" in df.columns:
+        df = df.rename(columns={"milestones": "Milestones"})
+    if "Milestones" not in df.columns and "milestone" in df.columns:
+        df = df.rename(columns={"milestone": "Milestones"})
+    if "Milestones" not in df.columns:
+        df["Milestones"] = 0
+    df["Milestones"] = pd.to_numeric(df["Milestones"], errors="coerce").fillna(0).astype(int)
+
     # Stable order
-    df = df.sort_values(by=["Step_No", "Document"], kind="stable").reset_index(drop=True)
+    df = df.sort_values(by=["Step_No", "Task"], kind="stable").reset_index(drop=True)
     return df
 
 @st.cache_data
@@ -105,7 +159,7 @@ def attach_team(df: pd.DataFrame, teams_map: pd.DataFrame) -> pd.DataFrame:
     return out
 
 # ------------------------------------------------------------------
-# Advanced scheduling helpers (PERT + PDM dependencies)
+# Scheduling helpers (PERT duration only, dispatch-based)
 # ------------------------------------------------------------------
 def _duration_days(row: pd.Series) -> int:
   """Compute task duration from PERT (O/M/P with Use_PERT) or fallback to Prep_Days.
@@ -128,135 +182,137 @@ def _duration_days(row: pd.Series) -> int:
       return max(0, int(math.ceil(float(m))))
   return max(0, int(row.get("Prep_Days", 0)))
 
-def _parse_predecessors(pred_str: str) -> list:
-  """Parse a Predecessors string like '3FS+0d;2SS-2d' -> [(3,'FS',0), (2,'SS',-2)]."""
-  if not isinstance(pred_str, str) or not pred_str.strip():
-      return []
-  out = []
-  parts = [p.strip() for p in pred_str.split(';') if p.strip()]
-  for p in parts:
-      # Extract leading ID
-      m = re.match(r"^(\d+)([A-Za-z]{2})?([+-]\d+)?d?$", p)
-      if not m:
-          # Try more flexible parsing: ID + Type + +lag/-lag + optional 'd'
-          m = re.match(r"^(\d+)\s*([FS|SS|FF|SF]{2})?\s*([+-]\s*\d+)\s*d?$", p, re.IGNORECASE)
-      if m:
-          pid = int(m.group(1))
-          typ = (m.group(2) or "FS").upper()
-          lag = m.group(3)
-          lag_days = int(lag.replace(" ", "")) if lag else 0
-          out.append((pid, typ, lag_days))
-      else:
-          # Fallback: only ID
-          try:
-              out.append((int(p), "FS", 0))
-          except Exception:
-              continue
-  return out
 
-def _topo_order(task_ids: list, preds_map: dict) -> list:
-  """Kahn's algorithm for topological sort on predecessor map.
-  preds_map: {id: [pred_ids...]}
-  Returns a list of task ids. If cycle, returns a best-effort order (sources first) and leaves others at the end.
-  """
-  from collections import defaultdict, deque
-  # Build indegree graph
-  indeg = {t: 0 for t in task_ids}
-  succ = defaultdict(list)
-  for t in task_ids:
-      for (p, _typ, _lag) in preds_map.get(t, []):
-          if p in indeg:
-              indeg[t] += 1
-              succ[p].append(t)
-  q = deque([t for t, d in indeg.items() if d == 0])
-  order = []
-  while q:
-      n = q.popleft()
-      order.append(n)
-      for m in succ.get(n, []):
-          indeg[m] -= 1
-          if indeg[m] == 0:
-              q.append(m)
-  # If not all tasks were ordered, append the remaining to avoid crash
-  if len(order) < len(task_ids):
-      leftovers = [t for t in task_ids if t not in order]
-      order.extend(leftovers)
-  return order
+# ------------------------------------------------------------------
+# Display selection: pick exactly ONE row per task based on Effort_Days
+# ------------------------------------------------------------------
+def select_display_role_rows(df: pd.DataFrame, sel_roles: list) -> pd.DataFrame:
+    """Return one row per task, choosing the display role dynamically.
+
+    Rules:
+    - Group by Task_ID if present (and not NA); else fallback to (Step_No, Document).
+    - Within each task, rank roles by Effort_Days descending, then by original CSV order as tie-breaker.
+    - Keep the first role that belongs to sel_roles (if sel_roles is empty, all roles are admissible).
+    - If no admissible role remains for the task, exclude the task.
+    Adds helper columns:
+      - DisplayRoleEffort (float)
+      - DisplayRoleFallback (bool), True if the chosen role isn't the #1 by Effort_Days.
+    """
+    if df is None or df.empty:
+        return pd.DataFrame(columns=df.columns if df is not None else [])
+
+    work = df.copy()
+    # Preserve original CSV order (index is stable thanks to load_data sorting)
+    work = work.reset_index().rename(columns={"index": "_csv_order"})
+
+    # --- Build composite grouping key (ONE line per task) ---
+    # Define a task uniquely by Step_No + Task (ignore Task_ID to avoid duplicates when Task_ID differs per role)
+    work["_step"] = pd.to_numeric(work.get("Step_No"), errors="coerce").astype("Int64") if "Step_No" in work.columns else pd.Series([pd.NA] * len(work))
+    work["_task"] = work["Task"].astype(str).str.strip() if "Task" in work.columns else pd.Series([""] * len(work))
+    work["_grp_key"] = (
+        work["_step"].astype("string").fillna("") + "||" +
+        work["_task"].astype(str)
+    )
+
+    chosen_rows = []
+    sel_roles_list = [str(r) for r in sel_roles] if sel_roles else []
+
+    for _, sub in work.groupby("_grp_key", dropna=False):
+        # Rank candidates within the task
+        sub = sub.copy()
+        sub["_eff"] = pd.to_numeric(sub.get("Effort_Days", 0), errors="coerce").fillna(0.0)
+        sub = sub.sort_values(by=["_eff", "_csv_order"], ascending=[False, True])
+        # Determine preferred order
+        preferred = sub
+        # Apply role admissibility if roles filter is active
+        if sel_roles_list:
+            cand = preferred[preferred["Role"].astype(str).isin(sel_roles_list)]
+        else:
+            cand = preferred
+        if cand.empty:
+            # No admissible role for this task -> drop the task
+            continue
+        chosen = cand.iloc[0]
+        # Fallback flag: compare to absolute best (first of preferred)
+        is_fallback = bool(chosen.name != preferred.index[0])
+        chosen = chosen.copy()
+        chosen["DisplayRoleEffort"] = float(chosen["_eff"]) if pd.notna(chosen["_eff"]) else 0.0
+        chosen["DisplayRoleFallback"] = is_fallback
+        chosen_rows.append(chosen)
+
+    if not chosen_rows:
+        return pd.DataFrame(columns=df.columns)
+
+    out = pd.DataFrame(chosen_rows).copy()
+    # Clean helper columns
+    for c in ["_csv_order", "_grp_key", "_eff", "_step", "_task"]:
+        if c in out.columns:
+            del out[c]
+    return out
 
 # ------------------------------------------------------------------
 # Schedule computation
 # ------------------------------------------------------------------
-def compute_schedule(df: pd.DataFrame, j0_datetime: datetime, reverse_to_j0: bool = True) -> pd.DataFrame:
-    # Advanced dependencies + PERT calculation is the only logic retained.
-    gantt_df = df.copy(deep=True)
+def compute_schedule(df: pd.DataFrame, anchor_datetime: datetime, reverse_to_j0: bool = True) -> pd.DataFrame:
+    """
+    Schedule tasks using a *dispatch-based* approach (no predecessors).
 
-    if {"Task_ID", "Predecessors"}.issubset(gantt_df.columns):
-        gantt_df["Task_ID"] = pd.to_numeric(gantt_df["Task_ID"], errors="coerce")
-        dur_map = {}
-        for tid, sub in gantt_df.groupby("Task_ID"):
-            if pd.isna(tid):
-                continue
-            d = _duration_days(sub.iloc[0])
-            dur_map[int(tid)] = max(0, int(d))
+    Columns used:
+      - dispatch_date: integer number of days **before dispatch/J0** when the task is expected to **start**.
+      - O_Days, M_Days, P_Days, Use_PERT (optional): used to compute duration via _duration_days.
+      - Prep_Days as fallback duration if PERT not usable.
 
-        preds = {}
-        for tid, sub in gantt_df.groupby("Task_ID"):
-            if pd.isna(tid):
-                continue
-            p = sub.iloc[0].get("Predecessors", "")
-            preds[int(tid)] = _parse_predecessors(p)
+    Modes:
+      - reverse_to_j0=True  → anchor_datetime is the **dispatch/J0 date**.
+        Start = J0 - dispatch_date; Finish = Start + duration.
 
-        task_ids = [int(t) for t in sorted(dur_map.keys())]
-        order = _topo_order(task_ids, preds)
+      - reverse_to_j0=False → anchor_datetime is a **custom project start**.
+        We build a relative schedule where the earliest Start aligns to anchor_datetime.
+        Concretely, Start is derived from dispatch_date (relative), then all tasks are shifted so that
+        min(Start) == anchor_datetime.
+    """
+    if df is None or df.empty:
+        out = df.copy() if df is not None else pd.DataFrame()
+        if out is not None:
+            out["Start"] = pd.NaT
+            out["Finish"] = pd.NaT
+        return out
 
-        ES = {t: None for t in task_ids}
-        EF = {t: None for t in task_ids}
-        project_start = j0_datetime - timedelta(days=365)
+    work = df.copy(deep=True)
 
-        for t in order:
-            dur = timedelta(days=dur_map.get(t, 0))
-            es_candidate = project_start
-            constraints = []
-            for (p, typ, lag_days) in preds.get(t, []):
-                if p not in EF or ES.get(p) is None:
-                    continue
-                lag = timedelta(days=int(lag_days))
-                if typ == "FS":
-                    constraints.append(EF[p] + lag)
-                elif typ == "SS":
-                    constraints.append(ES[p] + lag)
-                elif typ == "FF":
-                    constraints.append(EF[p] + lag - dur)
-                elif typ == "SF":
-                    constraints.append(ES[p] + lag - dur)
-                else:
-                    constraints.append(EF[p] + lag)
-            if constraints:
-                es_candidate = max([c for c in constraints if c is not None] + [project_start])
-            ES[t] = es_candidate
-            EF[t] = es_candidate + dur
+    # Ensure dispatch_date is present & numeric
+    if "dispatch_date" not in work.columns:
+        st.error("Missing required column: dispatch_date")
+        st.stop()
+    work["dispatch_date"] = pd.to_numeric(work["dispatch_date"], errors="coerce").fillna(0).astype(int)
 
-        gantt_df["Start"] = pd.NaT
-        gantt_df["Finish"] = pd.NaT
-        for t in task_ids:
-            mask = gantt_df["Task_ID"].astype("Int64") == t
-            if ES.get(t) is not None and EF.get(t) is not None:
-                gantt_df.loc[mask, "Start"] = ES[t]
-                gantt_df.loc[mask, "Finish"] = EF[t]
+    # Compute duration per *task row* (role granularity retained)
+    durations = work.apply(_duration_days, axis=1).astype(int)
 
-        if reverse_to_j0 and pd.notna(gantt_df["Finish"]).any():
-            max_finish = pd.to_datetime(gantt_df["Finish"]).max()
-            if pd.notna(max_finish):
-                delta = j0_datetime - max_finish
-                gantt_df["Start"] = pd.to_datetime(gantt_df["Start"]) + delta
-                gantt_df["Finish"] = pd.to_datetime(gantt_df["Finish"]) + delta
+    # Provisional Start/Finish according to the selected anchor mode
+    if reverse_to_j0:
+        # Anchor is J0 (dispatch/submission date)
+        # Start = J0 - dispatch_date; Finish = Start + duration
+        work["Start"] = work["dispatch_date"].apply(lambda d: anchor_datetime - timedelta(days=int(max(0, d))))
+        work["Finish"] = work["Start"] + durations.apply(lambda d: timedelta(days=int(max(0, d))))
+    else:
+        # Custom project start: build a relative timeline, then shift so min(Start) == anchor_datetime
+        # Use a relative base where the task with the largest dispatch_date starts earliest.
+        max_disp = int(work["dispatch_date"].max()) if not work["dispatch_date"].empty else 0
+        # Relative start in days from an arbitrary origin (0 at the earliest start)
+        rel_start_days = max_disp - work["dispatch_date"].astype(int)
+        base_origin = datetime(2000, 1, 1)
+        work["Start"] = rel_start_days.apply(lambda d: base_origin + timedelta(days=int(max(0, d))))
+        work["Finish"] = work["Start"] + durations.apply(lambda d: timedelta(days=int(max(0, d))))
 
-        return gantt_df
+        # Shift so that the earliest Start equals the chosen custom project start date
+        min_start = pd.to_datetime(work["Start"], errors="coerce").min()
+        if pd.notna(min_start):
+            delta = anchor_datetime - min_start
+            work["Start"] = pd.to_datetime(work["Start"]) + delta
+            work["Finish"] = pd.to_datetime(work["Finish"]) + delta
 
-    # No legacy fallback: return as-is if not schedulable
-    gantt_df["Start"] = pd.NaT
-    gantt_df["Finish"] = pd.NaT
-    return gantt_df
+    return work
 
 # ------------------------------------------------------------------
 # Weekly FTE load (line chart)
@@ -326,17 +382,14 @@ def main() -> None:
         else:
             sel_roles = []
 
-        # Task dropdown (single select), filtered by selected roles if any
+        # Task dropdown (single select) — independent from roles
         st.markdown("**Task filter**")
-        if sel_roles and "Role" in gantt_df.columns:
-            task_base = gantt_df[gantt_df["Role"].astype(str).isin(sel_roles)]
-        else:
-            task_base = gantt_df
+        task_base = gantt_df
 
-        if "Document" in task_base.columns:
+        if "Task" in task_base.columns:
             task_values = (
-                sorted(task_base["Document"].dropna().astype(str).unique().tolist())
-                if not task_base["Document"].dropna().empty else []
+                sorted(task_base["Task"].dropna().astype(str).unique().tolist())
+                if not task_base["Task"].dropna().empty else []
             )
         else:
             task_values = []
@@ -347,41 +400,62 @@ def main() -> None:
     # Apply Gantt filters
     filt = gantt_df.copy()
 
-    # Role filter (if Role column exists and user selected roles)
-    if "Role" in filt.columns and sel_roles:
-        filt = filt[filt["Role"].astype(str).isin([str(r) for r in sel_roles])]
 
     # Task filter (single selection)
     if selected_task != "All tasks":
-        filt = filt[filt["Document"].astype(str) == str(selected_task)]
-        
+        filt = filt[filt["Task"].astype(str) == str(selected_task)]
+
+    # --- Build per-task display view based on selected roles ---
+    filt_for_gantt = select_display_role_rows(filt, sel_roles)
+    if filt_for_gantt.empty:
+        st.warning("⚠️ No tasks match the current role selection.")
+        return
+    # --- Robust de-duplication by Task Key (Step_No + Task only) ---
+    tmp = filt_for_gantt.copy()
+    tmp["_step"] = pd.to_numeric(tmp.get("Step_No"), errors="coerce").astype("Int64") if "Step_No" in tmp.columns else pd.Series([pd.NA] * len(tmp))
+    tmp["_taskcol"] = tmp["Task"].astype(str).str.strip() if "Task" in tmp.columns else pd.Series([""] * len(tmp))
+
+    tmp["_task_key"] = (
+        tmp["_step"].astype("string").fillna("") + "||" +
+        tmp["_taskcol"].astype(str)
+    )
+
+    filt_for_gantt = (
+        tmp.drop_duplicates(subset=["_task_key"], keep="first")
+           .drop(columns=["_task_key", "_step", "_taskcol"], errors="ignore")
+    )
+
+    # Add TaskLabel: ⓘ before the task name if Notes is non-empty
+    filt_for_gantt["TaskLabel"] = filt_for_gantt.apply(
+        lambda r: f"ⓘ {r['Task']}" if str(r.get("Notes", "")).strip() != "" else r["Task"],
+        axis=1
+    )
 
     # ----- Gantt: one bar per task + chronological order -----
-    if filt.empty or filt["Start"].isna().all() or filt["Finish"].isna().all():
-        st.warning("⚠️ No schedulable data after filters/dates.")
-        return
-
-    # Deduplicate by task so duration is counted once
-    dedup_keys = [c for c in ["Step_No", "Document"] if c in filt.columns]
-    gantt_plot = (
-        filt.sort_values(dedup_keys)
-            .drop_duplicates(subset=dedup_keys, keep="first")
-            .copy()
-        if dedup_keys else filt.copy()
-    )
+    gantt_plot = filt_for_gantt.copy()
 
     # Ensure datetimes and sort chronologically
     gantt_plot["Start"] = pd.to_datetime(gantt_plot["Start"], errors="coerce")
     gantt_plot["Finish"] = pd.to_datetime(gantt_plot["Finish"], errors="coerce")
-    sort_cols = [c for c in ["Start", "Finish", "Concurrency_Group", "Step_No", "Document"] if c in gantt_plot.columns]
-    gantt_plot = gantt_plot.sort_values(by=sort_cols, ascending=[True]*len(sort_cols), na_position="last").reset_index(drop=True)
+    # Compute duration from scheduled dates for sorting (longer first when same Start)
+    if "Start" in gantt_plot.columns and "Finish" in gantt_plot.columns:
+        gantt_plot["Duration_Days"] = (gantt_plot["Finish"] - gantt_plot["Start"]).dt.days
+        gantt_plot["Duration_Days"] = gantt_plot["Duration_Days"].fillna(0).clip(lower=0)
+    else:
+        gantt_plot["Duration_Days"] = 0
+    # Sort: Start (asc), then longer tasks first when same Start
+    desired_order = ["Start", "Duration_Days", "Finish", "Concurrency_Group", "Step_No", "Task"]
+    sort_cols = [c for c in desired_order if c in gantt_plot.columns]
+    ascending_map = {"Start": True, "Duration_Days": False, "Finish": True, "Concurrency_Group": True, "Step_No": True, "Task": True}
+    ascending_list = [ascending_map[c] for c in sort_cols]
+    gantt_plot = gantt_plot.sort_values(by=sort_cols, ascending=ascending_list, na_position="last").reset_index(drop=True)
 
     # Color by concurrency group (keep original look of thick lines)
     color_map = {
         "1": "#2ecc40", "2": "#0074d9", "3": "#ff851b", "4": "#b10dc9", "5": "#ff4136",
         "6": "#7fdbff", "7": "#3d9970", "8": "#f012be", "9": "#85144b", "10": "#aaaaaa",
     }
-        # Couleurs fixes pour les équipes de Regulatory Affairs
+    # Couleurs fixes pour les équipes de Regulatory Affairs
     RA_COLORS = {
         "Regulatory Strategist (Global/EU)": "#1f77b4",  # bleu
         "Regulatory CMC": "#ff7f0e",                    # orange
@@ -390,23 +464,31 @@ def main() -> None:
         "Local Affiliates (Japan / China / Canada / EU )": "#9467bd",  # violet
         "Global Regulatory Lead": "#8c564b",            # marron
     }
-    
 
     fig = Figure()
 
-    # Build a fixed color per Role (all roles are RA). Use RA_COLORS when available, else fall back to a palette.
+    # Build a fixed color per Role (stable across filters)
     palette = getattr(px.colors.qualitative, "Plotly", [
         "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
         "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"
     ])
-    unique_roles = [r for r in gantt_plot["Role"].dropna().astype(str).unique()]
+
+    # Use ALL roles from the base dataset (stable ordering) to assign colors once
+    if "Role" in base_df.columns:
+        all_roles = [str(r) for r in sorted(base_df["Role"].dropna().astype(str).unique())]
+    else:
+        all_roles = []
+
     role_colors = {}
-    for idx, r in enumerate(unique_roles):
-        base_col = RA_COLORS.get(r) if 'RA_COLORS' in globals() else None
-        role_colors[r] = base_col if base_col else palette[idx % len(palette)]
+    for idx, r in enumerate(all_roles):
+        # Prefer fixed RA_COLORS when provided, otherwise cycle the palette deterministically
+        role_colors[r] = RA_COLORS.get(r, palette[idx % len(palette)])
 
     # Track which roles already appear in the legend to avoid duplicates
     seen_roles = set()
+
+    # Milestone legend flag (to avoid duplicate legend entries)
+    milestone_legend_added = False
 
     for i, (_, row) in enumerate(gantt_plot.iterrows()):
         dept = str(row.get("Department", "")).strip()
@@ -417,7 +499,7 @@ def main() -> None:
         chosen_color = role_colors.get(role, "#888888")
 
         # Legend: one entry per Role (first occurrence only)
-        legend_name = role if role else row["Document"]
+        legend_name = role if role else row["Task"]
         legend_group = role if role else None
         show_legend = False
         if role and role not in seen_roles:
@@ -430,7 +512,9 @@ def main() -> None:
             mode="lines",
             line=dict(color=chosen_color, width=10),
             hovertemplate=(
-                f"<b>{row['Document']}</b><br>"
+                f"Display role auto = {role} (Effort_Days = {float(row.get('DisplayRoleEffort', row.get('Effort_Days', 0))):.2f}"
+                f"{' – fallback' if bool(row.get('DisplayRoleFallback', False)) else ''})<br>"
+                f"<b>{row['Task']}</b><br>"
                 f"Start: {pd.to_datetime(row['Start']).date()}<br>"
                 f"Finish: {pd.to_datetime(row['Finish']).date()}<br>"
                 f"Duration: {int(row['Prep_Days']) if pd.notna(row['Prep_Days']) else 0} days<br>"
@@ -442,9 +526,37 @@ def main() -> None:
             legendgroup=legend_group
         ))
 
+        # If this task is marked as a Milestone, add a diamond marker at the start
+        is_milestone = False
+        if "Milestones" in row.index:
+            try:
+                is_milestone = int(row["Milestones"]) == 1
+            except Exception:
+                is_milestone = False
+        if is_milestone:
+            fig.add_trace(Scatter(
+                x=[row["Start"]],
+                y=[i],
+                mode="markers",
+                marker=dict(
+                    symbol="diamond",
+                    size=14,
+                    line=dict(width=1),
+                    color=chosen_color
+                ),
+                hovertemplate=(
+                    f"<b>{row['Task']}</b><br>Milestone at start<br>Start: {pd.to_datetime(row['Start']).date()}<extra></extra>"
+                ),
+                name="Milestone",
+                showlegend=(not milestone_legend_added),
+                legendgroup="Milestone"
+            ))
+            milestone_legend_added = True
+
+
     fig.update_yaxes(
         tickvals=list(range(len(gantt_plot))),
-        ticktext=gantt_plot["Document"],
+        ticktext=gantt_plot["TaskLabel"],
         autorange="reversed",
         tickfont=dict(size=9),
     )
@@ -468,8 +580,8 @@ def main() -> None:
     st.plotly_chart(fig, use_container_width=True)
 
     # Project duration summary
-    min_start = pd.to_datetime(filt["Start"]).min()
-    max_finish = pd.to_datetime(filt["Finish"]).max()
+    min_start = pd.to_datetime(filt_for_gantt["Start"]).min()
+    max_finish = pd.to_datetime(filt_for_gantt["Finish"]).max()
     if pd.notna(min_start) and pd.notna(max_finish):
         st.markdown(
             f"**Project Duration:** {(max_finish - min_start).days} days "
@@ -501,14 +613,7 @@ def main() -> None:
     with st.expander("🧮 FTE Calculator (by Role/Task)", expanded=False):
         st.markdown(
             "This calculator annualizes the **Effort_Days** into FTE using:\n"
-            r"$\mathrm{FTE}_{task} = \dfrac{\mathrm{Effort\\_Days}}{\mathrm{Working\\_days\\_per\\_FTE}}$"
-        )
-
-        calc_method = st.selectbox(
-            "Calculation method",
-            options=["Annualized FTE (Effort_Days / Working days per FTE)"],
-            index=0,
-            help="Annualizes each task effort to an FTE fraction over a full-time year."
+            r"$\mathrm{FTE}_{task} = \dfrac{\mathrm{Effort\\Days}}{\mathrm{Working\\Days\\ per\\FTE}}$"
         )
 
         # Working days per FTE (default 220)
@@ -521,7 +626,7 @@ def main() -> None:
             st.warning("No 'Role' column found in the current dataset. Cannot compute FTE by role.")
         else:
             # Prepare task-level view (each row = role-task) restricted by current filters
-            task_view_cols = [c for c in ["Role", "Department", "Document", "Effort_Days", "Start", "Finish"] if c in filt.columns]
+            task_view_cols = [c for c in ["Role", "Department", "Task", "Effort_Days", "Start", "Finish"] if c in filt.columns]
             task_view = filt[task_view_cols].copy()
 
             # Ensure numerics
@@ -562,11 +667,11 @@ def main() -> None:
                     st.warning(f"Capacity file found but could not be read: {e}")
                     cap_df = None
             else:
-                st.info("`data/HR_Capacity.csv` not found. Capacity comparison will be skipped.")
+                cap_df = None
 
             # Aggregate per role
             agg_specs = {
-                "Document": "nunique",
+                "Task": "nunique",
                 "Effort_Days": "sum",
                 "FTE_Task": "sum",
             }
@@ -576,7 +681,7 @@ def main() -> None:
             role_agg = (
                 task_view.groupby("Role", as_index=False)
                 .agg(**{
-                    "Tasks": ("Document", "nunique"),
+                    "Tasks": ("Task", "nunique"),
                     "Total_Effort_Days": ("Effort_Days", "sum"),
                     "Required_FTE": ("FTE_Task", "sum"),
                     **({"Estimated_Cost": ("Cost", "sum")} if "Cost" in task_view.columns else {})
@@ -597,7 +702,7 @@ def main() -> None:
 
             # Display results
             st.markdown("### 📋 FTE per Task (annualized)")
-            show_task_cols = [c for c in ["Role", "Department", "Document", "Effort_Days", "FTE_Task", "Start", "Finish"] if c in task_view.columns]
+            show_task_cols = [c for c in ["Role", "Department", "Task", "Effort_Days", "FTE_Task", "Start", "Finish"] if c in task_view.columns]
             if "Cost" in task_view.columns:
                 show_task_cols += ["Cost"]
             st.dataframe(task_view[show_task_cols].reset_index(drop=True), use_container_width=True)
@@ -621,32 +726,34 @@ def main() -> None:
             date_str = datetime.now().strftime("%Y%m%d_%H%M%S")
             safe_process = re.sub(r"[^A-Za-z0-9]+", "_", process).strip("_")
 
-            st.download_button(
-                "📥 Download FTE per Task (CSV)",
-                data=task_view[show_task_cols].to_csv(index=False),
-                file_name=f"FTE_per_Task_{safe_process}_{date_str}.csv",
-                mime="text/csv",
-                key="dl_fte_task"
-            )
+            col_task, col_role = st.columns(2)
 
-            st.download_button(
-                "📥 Download FTE by Role (CSV)",
-                data=role_agg[display_cols].to_csv(index=False),
-                file_name=f"FTE_by_Role_{safe_process}_{date_str}.csv",
-                mime="text/csv",
-                key="dl_fte_role"
-            )
+            with col_task:
+                st.download_button(
+                    "📥 Download FTE per Task (CSV)",
+                    data=task_view[show_task_cols].to_csv(index=False),
+                    file_name=f"FTE_per_Task_{safe_process}_{date_str}.csv",
+                    mime="text/csv",
+                    key="dl_fte_task"
+                )
+
+            with col_role:
+                st.download_button(
+                    "📥 Download FTE by Role (CSV)",
+                    data=role_agg[display_cols].to_csv(index=False),
+                    file_name=f"FTE_by_Role_{safe_process}_{date_str}.csv",
+                    mime="text/csv",
+                    key="dl_fte_role"
+                )
 
     # ----- Critical Path (task-level, deduplicated, chronological) -----
     with st.expander("🔥 Show Critical Path Tasks", expanded=False):
-        st.markdown("Les tâches critiques sont celles qui n'ont **aucune marge de retard (Slack = 0)**.")
-
         # Build task-level view to avoid duplicates
         grp_keys = ["Concurrency_Group"]
         if "Step_No" in filt.columns: grp_keys.append("Step_No")
-        if "Document" in filt.columns: grp_keys.append("Document")
+        if "Task" in filt.columns: grp_keys.append("Task")
 
-        if not {"Concurrency_Group", "Document"}.issubset(filt.columns):
+        if not {"Concurrency_Group", "Task"}.issubset(filt.columns):
             st.info("Columns required for critical path not found.")
         else:
             task_level = (
@@ -666,47 +773,47 @@ def main() -> None:
             )
             task_level["Critical"] = task_level["Slack_Days"] == 0
 
-            critical_tasks = task_level[task_level["Critical"]].copy()
+            # Build output DataFrame as before, but keep all columns for filtering
+            out = task_level.rename(columns={
+                "Step_No": "Step",
+                "Prep_Days": "Duration (Days)",
+                "Effort_Days": "Effort (FTE Days)",
+                "Concurrency_Group": "Group",
+            }).copy()
 
-            if critical_tasks.empty:
+            # Ensure datetimes and sort chronologically
+            if "Start" in out.columns:
+                out["Start"] = pd.to_datetime(out["Start"], errors="coerce")
+            if "Finish" in out.columns:
+                out["Finish"] = pd.to_datetime(out["Finish"], errors="coerce")
+
+            if out.empty:
                 st.info("✅ Aucune tâche critique détectée (toutes ont une marge suffisante).")
             else:
-                out = critical_tasks.rename(columns={
-                    "Step_No": "Step",
-                    "Prep_Days": "Duration (Days)",
-                    "Effort_Days": "Effort (FTE Days)",
-                    "Concurrency_Group": "Group",
-                }).copy()
+                # Keep only critical tasks
+                crit_only = out[out["Critical"] == True].copy()
+                if crit_only.empty:
+                    st.info("✅ Aucune tâche critique détectée (toutes ont une marge suffisante).")
+                else:
+                    crit_only = crit_only.sort_values(by=["Start", "Step", "Task"], ascending=[True, True, True])
+                    # Drop the boolean column from display since everything is critical
+                    display_cols = [c for c in ["Task_ID", "Step", "Task", "Duration (Days)", "Start", "Finish", "Slack_Days"] if c in crit_only.columns]
+                    # Pretty date display
+                    if "Start" in crit_only.columns:
+                        crit_only["Start"] = crit_only["Start"].dt.strftime("%Y-%m-%d")
+                    if "Finish" in crit_only.columns:
+                        crit_only["Finish"] = crit_only["Finish"].dt.strftime("%Y-%m-%d")
+                    st.dataframe(crit_only[display_cols].reset_index(drop=True), use_container_width=True)
 
-                # Ensure datetimes and sort chronologically
-                if "Start" in out.columns:
-                    out["Start"] = pd.to_datetime(out["Start"], errors="coerce")
-                if "Finish" in out.columns:
-                    out["Finish"] = pd.to_datetime(out["Finish"], errors="coerce")
-
-                sort_cols = [c for c in ["Start", "Finish", "Group", "Step", "Document"] if c in out.columns]
-                out = out.sort_values(by=sort_cols, ascending=[True]*len(sort_cols), na_position="last")
-
-                # Pretty date display
-                if "Start" in out.columns:
-                    out["Start"] = out["Start"].dt.strftime("%Y-%m-%d")
-                if "Finish" in out.columns:
-                    out["Finish"] = out["Finish"].dt.strftime("%Y-%m-%d")
-
-                display_cols = [c for c in ["Step","Document","Duration (Days)","Effort (FTE Days)","Start","Finish","Group"] if c in out.columns]
-                st.dataframe(out[display_cols].reset_index(drop=True), use_container_width=True)
-
-                # CSV export
-                date_str = datetime.now().strftime("%Y%m%d_%H%M%S")
-                safe_process = re.sub(r"[^A-Za-z0-9]+", "_", process).strip("_")
-                csv_critical = out[display_cols].to_csv(index=False)
-                st.download_button(
-                    label="📥 Download Critical Path (CSV)",
-                    data=csv_critical,
-                    file_name=f"Critical_Path_{safe_process}_{date_str}.csv",
-                    mime="text/csv",
-                    key="download_critical_tasks"
-                )
+                    date_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+                    safe_process = re.sub(r"[^A-Za-z0-9]+", "_", process).strip("_")
+                    st.download_button(
+                        label="📥 Download Critical Path (CSV)",
+                        data=crit_only[display_cols].to_csv(index=False),
+                        file_name=f"Critical_Path_{safe_process}_{date_str}.csv",
+                        mime="text/csv",
+                        key="download_critical_tasks"
+                    )
 
 if __name__ == "__main__":
     main()

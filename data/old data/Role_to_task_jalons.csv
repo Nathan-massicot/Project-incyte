@@ -1,0 +1,81 @@
+Task_ID,Step_No,Task,Role,dispatch_date,milestones
+1,1,Management Decision,Management,700
+2,2,Paediatric Investigation Plan (PIP) agreed,Global Regulatory Lead,700
+3,3,General Kick-off meeting,Global Regulatory Lead,600
+4,4,Content Plan (documents list) prepared,Regulatory Strategist (Global/EU),180
+5,5,Scientific advice / end of phase 2 meeting,Global Regulatory Lead,550
+6,6,Target Product Profile finalized (TPP),Global Regulatory Lead,400
+7,7,Centralised Procedure Eligibility Request,Regulatory Strategist (Global/EU),130
+8,8,Letter of Intent sent to EMA,Regulatory Strategist (Global/EU),210
+9,9,Preparation of the pre-submission meeting with Rapporteurs,Regulatory Strategist (Global/EU),180
+10,10,Pre-submission meeting with Rapporteurs Request,Regulatory Strategist (Global/EU),185
+11,11,EMA pre-submission meeting,Regulatory Strategist (Global/EU),90
+12,12,Orphan Drug Designation granted,Global Regulatory Lead,700
+13,13,Invented name approval (EMA NRG),Regulatory Operations,300
+14,14,IDMP data readiness assessment done,Regulatory Operations,180
+15,15,ATC code request submitted,Regulatory Operations,300
+16,16,Final nonclinical pharmacology study report,Regulatory Strategist (Global/EU),450
+17,17,Final toxicokinetic/pharmacokinetic study report,Regulatory Operations,450
+18,18,Final toxicology study report,Regulatory Operations,450
+19,19,Final clinical study report (last pivotal study),Regulatory Strategist (Global/EU),450
+20,20,Population PK analysis report,Regulatory Operations,450
+21,21,Integrated Summary of Safety (ISS),Regulatory Operations,400
+22,22,Integrated Summary of Efficacy (ISE),Regulatory Operations,400
+23,23,Integrated Summary of Immunogenicity,Regulatory Operations,400
+24,24,Summary of Biopharmaceutic Studies (Module 2.7.1),Regulatory Strategist (Global/EU),400
+25,25,Summary of Clinical Pharmacology (Module 2.7.2),Regulatory Strategist (Global/EU),400
+26,26,Summary of Clinical Efficacy (Module 2.7.3),Regulatory Strategist (Global/EU),400
+27,27,Summary of Clinical Safety (Module 2.7.4),Regulatory Strategist (Global/EU),400
+28,28,Clinical Overview (Module 2.5),Regulatory Strategist (Global/EU),400
+29,29,Clinical literature references compiled (Module 2.7.5),Labeling,400
+30,30,Clinical literature references compiled (Module 2.7.5),Regulatory Strategist (Global/EU),400
+31,31,Clinical study synopses finalized (Module 2.7.6),Regulatory Strategist (Global/EU),400
+32,32,Nonclinical Introduction (Module 2.6.1),Regulatory Strategist (Global/EU),400
+33,33,Nonclinical Written Summary – Pharmacology (Module 2.6.2),Regulatory Strategist (Global/EU),400
+34,34,Nonclinical Tabulated Summary – Pharmacology (Module 2.6.3),Regulatory Strategist (Global/EU),400
+35,35,Nonclinical Written Summary – Pharmacokinetics (Module 2.6.4),Regulatory Strategist (Global/EU),400
+36,36,Nonclinical Tabulated Summary – Pharmacokinetics (Module 2.6.5),Regulatory Strategist (Global/EU),400
+37,37,Nonclinical Written Summary – Toxicology (Module 2.6.6),Regulatory Strategist (Global/EU),400
+38,38,Nonclinical Tabulated Summary – Toxicology (Module 2.6.7),Regulatory Strategist (Global/EU),400
+39,39,Nonclinical Overview (Module 2.4),Regulatory Strategist (Global/EU),400
+40,40,Nonclinical literature references compiled (Module 4.3),Regulatory Strategist (Global/EU),450
+41,41,GMP Clearance (for manufacturing sites),Regulatory Operations,150
+42,42,GMP Certificates (from manufacturing sites),Regulatory Operations,150
+43,43,Manufacturing Authorisations collected,Regulatory Operations,150
+44,44,Manufacturing Process Flow Chart completed,Regulatory Operations,450
+45,45,3.2.S.1 Drug Substance: General Information section,Regulatory Operations,450
+46,46,3.2.S.2 Drug Substance: Manufacture section,Regulatory Operations,450
+47,47,3.2.S.3 Drug Substance: Characterisation section,Regulatory Operations,450
+48,48,3.2.S.4 Drug Substance: Control of Drug Substance section,Regulatory Operations,450
+49,49,3.2.S.5 Drug Substance: Reference Standards section,Regulatory Operations,450
+50,50,3.2.S.6 Drug Substance: Container Closure System section,Regulatory Operations,450
+51,51,3.2.S.7 Drug Substance: Stability section,Regulatory Operations,450
+52,52,3.2.P.1 Drug Product: Description and Composition section,Regulatory Operations,450
+53,53,3.2.P.2 Drug Product: Pharmaceutical Development section,Regulatory Operations,450
+54,54,3.2.P.3 Drug Product: Manufacture section,Regulatory Operations,450
+55,55,3.2.P.4 Drug Product: Control of Excipients section,Regulatory Operations,450
+56,56,3.2.P.5 Drug Product: Control of Drug Product section,Regulatory Operations,450
+57,57,3.2.P.6 Drug Product: Reference Standards section,Regulatory Operations,450
+58,58,3.2.P.7 Drug Product: Container Closure System section,Regulatory Operations,450
+59,59,3.2.P.8 Drug Product: Stability section,Regulatory Operations,450
+60,60,3.2.A.1 Appendices: Facilities and Equipment,Regulatory Operations,450
+61,61,3.2.A.2 Appendices: Adventitious Agents Safety,Regulatory Operations,450
+62,62,3.2.R Regional Information section completed,Regulatory Operations,450
+63,63,Quality Overall Summary – Introduction (Module 2.3.1),Regulatory Strategist (Global/EU),400
+64,64,Quality Overall Summary – Drug Substance (Module 2.3.S),Regulatory Strategist (Global/EU),400
+65,65,Quality Overall Summary – Drug Product (Module 2.3.P),Regulatory Strategist (Global/EU),400
+66,66,Quality Overall Summary – Appendices (Module 2.3.A),Regulatory Strategist (Global/EU),400
+67,67,Quality Overall Summary – Regional Information (Module 2.3.R),Regulatory Strategist (Global/EU),400
+68,68,Company Core Data Sheet (CCDS) finalized,Regulatory Operations,700
+69,69,Risk Management Plan (RMP),Regulatory Strategist (Global/EU),150
+70,70,EU SmPC (Product Information) draft,Regulatory Strategist (Global/EU),150
+71,71,Messaging alignment meeting 1,Regulatory Operations,420
+72,72,Messaging alignment meeting 2,Regulatory Operations,300
+73,73,Application Form (eAF) completed,Regulatory Strategist (Global/EU),180
+74,74,Cover Letter for MAA submission,Regulatory Operations,180
+75,75,Product Artwork and Mock-ups ready,Regulatory Operations,130
+76,76,Compilation of eCTD dossier,Regulatory Strategist (Global/EU),130
+77,77,Final internal review and sign-off,Regulatory Operations,10
+78,78,Validation of dispatch of MAA to EMA,Regulatory Operations,5
+79,79,Dispatch of MAA to EMA,Regulatory Operations,0
+80,80,EMA confirmation of submission receipt,Regulatory Operations,-21
