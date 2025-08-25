@@ -13,8 +13,9 @@ from plotly.graph_objects import Figure, Scatter
 # Mapping "process label" -> CSV file (all in data/)
 # ------------------------------------------------------------------
 PROCESS_CSV = {
-    "MAA": "data/DayDataMaav6.csv",
     "MAA Modules agregated": "data/DayDataMaav6_Modules_aggregated.csv",
+    "MAA": "data/DayDataMaav6.csv",
+    
 }
 
 TEAMS_MAP_PATH = "data/Regulatory_Departments_and_Teams.csv"
