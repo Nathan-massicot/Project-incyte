@@ -461,12 +461,12 @@ def main() -> None:
     RA_COLORS = {
         "Regulatory Operations": "#d62728",              # rouge
         "Management": "#1f77b4",                         # bleu clair
-        "Other function": "#9467bd",                     # violet
+        "Other function": "#8400ff",                     # violet
         "Regulatory CMC": "#ff7f0e",                     # orange
         "Global Regulatory Lead": "#2ca02c",             # vert
         "Regulatory Strategist (Global/EU)": "#8c564b",  # marron
         "EMA": "#bcbd22",                                # jaune
-        "Labeling": "#00008b",                           # bleu foncé
+        "Labelling": "#000000",                           # bleu foncé
     }
 
     # Deterministic base palette (fixed order). Used for unknown roles.
