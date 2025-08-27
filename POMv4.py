@@ -3,6 +3,7 @@ import re
 from datetime import datetime, timedelta, date
 import math
 import csv
+import hashlib
 
 import pandas as pd
 import plotly.express as px
@@ -466,24 +467,29 @@ def main() -> None:
         "Global Regulatory Lead": "#8c564b",            # marron
     }
 
-    fig = Figure()
-
-    # Build a fixed color per Role (stable across filters)
-    palette = getattr(px.colors.qualitative, "Plotly", [
+    # Deterministic base palette (fixed order). Used for unknown roles.
+    BASE_PALETTE = [
         "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
         "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"
-    ])
+    ]
 
-    # Use ALL roles from the base dataset (stable ordering) to assign colors once
-    if "Role" in base_df.columns:
-        all_roles = [str(r) for r in sorted(base_df["Role"].dropna().astype(str).unique())]
-    else:
-        all_roles = []
+    def role_to_color(role_name: str) -> str:
+        """Return a stable color for a given role across reloads.
+        Priority: fixed RA_COLORS -> deterministic hash index into BASE_PALETTE.
+        Uses MD5 of the role string (not Python's hash) to be stable across sessions.
+        """
+        r = (role_name or "").strip()
+        if r in RA_COLORS:
+            return RA_COLORS[r]
+        # Deterministic index from md5 hex
+        h = hashlib.md5(r.encode("utf-8")).hexdigest()
+        idx = int(h, 16) % len(BASE_PALETTE)
+        return BASE_PALETTE[idx]
 
-    role_colors = {}
-    for idx, r in enumerate(all_roles):
-        # Prefer fixed RA_COLORS when provided, otherwise cycle the palette deterministically
-        role_colors[r] = RA_COLORS.get(r, palette[idx % len(palette)])
+    fig = Figure()
+
+    # Colors are resolved deterministically per role via role_to_color();
+    # this prevents color changes between Streamlit reloads.
 
     # Track which roles already appear in the legend to avoid duplicates
     seen_roles = set()
@@ -497,7 +503,7 @@ def main() -> None:
         group_key = str(row.get("Concurrency_Group", ""))
 
         # One fixed color per Role (no department filtering)
-        chosen_color = role_colors.get(role, "#888888")
+        chosen_color = role_to_color(role) if role else "#888888"
 
         # Legend: one entry per Role (first occurrence only)
         legend_name = role if role else row["Task"]
@@ -818,7 +824,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-    
-    
-    
     
