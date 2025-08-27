@@ -40,11 +40,11 @@ Task_ID,Step_No,Task,Role,dispatch_date,O_Days,M_Days,P_Days,Use_PERT,Effort_Day
 ,,Module 4,Labeling,185,1,1,2,Y,1.0,,0
 ,,Module 4,Regulatory Operations,180,159,159,159,Y,2.8,,0
 ,,Module 5,Global Regulatory Lead,550,1,1,1,Y,0.2,,0
-,,Module 5,Labeling,550,1,1,1,Y,0.2,,0
-,,Module 5,Other function,550,1,1,1,Y,0.2,,0
-,,Module 5,Regulatory CMC,550,1,1,1,Y,0.2,,0
-,,Module 5,Regulatory Operations,550,1,1,1,Y,0.2,,0
-,,Module 5,Regulatory Strategist (Global/EU),550,159,159,159,Y,3.0,,0
+,,Module 5,Labeling,550,180,180,180,Y,0.2,,0
+,,Module 5,Other function,550,180,180,180,Y,0.2,,0
+,,Module 5,Regulatory CMC,550,180,180,180,Y,0.2,,0
+,,Module 5,Regulatory Operations,550,180,180,180,Y,0.2,,0
+,,Module 5,Regulatory Strategist (Global/EU),550,180,180,180,Y,3.0,,0
 24,6,Target Product Profile (TPP),Global Regulatory Lead,700,695,695,695,Y,12.0,Finalization of the Target Product Profile (TPP) a key strategic document that defines the intended indications clinical claims safety profile and regulatory positioning of the product. Developed cross-functionally and used as a decision-making reference. For EMA submissions it should be finalized between 12 and 6 months before submission with drafting initiated earlier and alignment reinforced around the end-of-Phase II meeting (~18 months before submission).,0
 25,7,Centralised Procedure Eligibility Request,Global Regulatory Lead,130,60,75,90,Y,75.0,Submission of the eligibility request to EMA to confirm acceptance of the Centralised Procedure. This step ensures regulatory alignment on the chosen submission route and must be completed between 18 and 7 months before the planned MAA submission depending on project organization and availability of Phase II/III clinical data.,0
 26,7,Centralised Procedure Eligibility Request,Labeling,130,60,75,90,Y,75.0,Submission of the eligibility request to EMA to confirm acceptance of the Centralised Procedure. This step ensures regulatory alignment on the chosen submission route and must be completed between 18 and 7 months before the planned MAA submission depending on project organization and availability of Phase II/III clinical data.,0
