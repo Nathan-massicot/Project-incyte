@@ -16,6 +16,7 @@ from plotly.graph_objects import Figure, Scatter
 PROCESS_CSV = {
     "MAA Modules agregated": "data/DayDataMaav6_Modules_aggregated.csv",
     "MAA": "data/DayDataMaaV6.csv",
+    "FDA NDA and BLA": "data/DayDataFDAMaa.csv",
     
 }
 
@@ -466,7 +467,7 @@ def main() -> None:
         "Global Regulatory Lead": "#2ca02c",             # vert
         "Regulatory Strategist (Global/EU)": "#8c564b",  # marron
         "EMA": "#bcbd22",                                # jaune
-        "Labelling": "#000000",                           # bleu foncé
+        "Labeling": "#C59F9F",                           # bleu foncé
     }
 
     # Deterministic base palette (fixed order). Used for unknown roles.

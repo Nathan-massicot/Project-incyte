@@ -28,25 +28,25 @@ Task_ID,Step_No,Task,Role,dispatch_date,O_Days,M_Days,P_Days,Use_PERT,Effort_Day
 28,7,Module 1,Regulatory CMC,185,220,180,180,180,2,,0
 29,7,Module 1,Regulatory Operations,220,180,180,180,,0
 30,7,Module 1,Regulatory Strategist (Global/EU),220,180,180,180,Y,30.0,,0
-31,8,Module 2 CMC,Other function,450,288,288,288,Y,0.8,,0
-32,8,Module 2 CMC,Regulatory CMC,450,288,288,288,Y,12.0,,0
-32,8,Module 2 CMC,Regulatory Operations,450,288,288,288,Y,1.0,,0
-32,8,Module 2 Nonclinical,Regulatory Operations,450,288,288,288,Y,1.0,,0
-32,8,Module 2 Nonclinical,Other function,450,288,288,288,Y,10.8,,0
-32,8,Module 2 Clinical,Regulatory Operations,450,288,288,288,Y,1.0,,0
-32,8,Module 2 Clinical,Other function,450,288,288,288,Y,10.8,,0
-32,8,Module 2 Clinical,Global Regulatory Lead,450,288,288,288,Y,0.8,,0
-32,8,Module 2 Clinical,Labeling,450,288,288,288,Y,0.8,,0
-32,8,Module 2 Clinical,Regulatory Strategist (Global/EU),450,288,288,288,Y,0.8,,0
-35,9,Module 3,Other function,300,150,170,210,Y,36.0,,0
-36,9,Module 3,Regulatory CMC,300,150,170,210,Y,35.0,,0
-37,9,Module 3,Regulatory Operations,300,150,170,210,Y,34.0,,0
+31,8,Module 2 CMC,Other function,100,90,90,90,Y,0.8,,0
+32,8,Module 2 CMC,Regulatory CMC,100,90,90,90,Y,12.0,,0
+32,8,Module 2 CMC,Regulatory Operations,100,90,90,90,Y,1.0,,0
+32,8,Module 2 Nonclinical,Regulatory Operations,400,90,90,90,Y,1.0,,0
+32,8,Module 2 Nonclinical,Other function,400,90,90,90,Y,10.8,,0
+32,8,Module 2 Clinical,Regulatory Operations,110,90,90,90,Y,1.0,,0
+32,8,Module 2 Clinical,Other function,110,90,90,90,Y,10.8,,0
+32,8,Module 2 Clinical,Global Regulatory Lead,110,90,90,90,Y,0.8,,0
+32,8,Module 2 Clinical,Labeling,110,90,90,90,Y,0.8,,0
+32,8,Module 2 Clinical,Regulatory Strategist (Global/EU),110,90,90,90,Y,0.8,,0
+35,9,Module 3,Other function,200,100,100,100,Y,36.0,,0
+36,9,Module 3,Regulatory CMC,200,100,100,100,Y,35.0,,0
+37,9,Module 3,Regulatory Operations,200,100,100,100,Y,34.0,,0
 39,10,Module 4,Other function,550,159,159,159,Y,100.0,,0
-41,11,Module 5,Global Regulatory Lead,550,159,159,159,Y,0.2,,0
-42,11,Module 5,Labeling,185,90,90,90,Y,0.2,,0
-43,11,Module 5,Other function,185,90,90,90,Y,28.2,,0
-45,11,Module 5,Regulatory Operations,185,90,90,90,Y,0.2,,0
-46,11,Module 5,Regulatory Strategist (Global/EU),185,90,90,90,159,Y,3.0,,0
+41,11,Module 5,Global Regulatory Lead,291,180,180,180,Y,0.2,,0
+42,11,Module 5,Labeling,291,180,180,180,Y,0.2,,0
+43,11,Module 5,Other function,291,180,180,180,Y,28.2,,0
+45,11,Module 5,Regulatory Operations,291,180,180,180,Y,0.2,,0
+46,11,Module 5,Regulatory Strategist (Global/EU),291,180,180,180,Y,3.0,,0
 47,12,Target Product Profile (TPP),Global Regulatory Lead,700,695,695,695,Y,12.0,Finalization of the Target Product Profile (TPP) a key strategic document that defines the intended indications clinical claims safety profile and regulatory positioning of the product. Developed cross-functionally and used as a decision-making reference. For EMA submissions it should be finalized between 12 and 6 months before submission with drafting initiated earlier and alignment reinforced around the end-of-Phase II meeting (~18 months before submission).,0
 48,13,Centralised Procedure Eligibility Request,Global Regulatory Lead,130,60,75,90,Y,70.0,Submission of the eligibility request to EMA to confirm acceptance of the Centralised Procedure. This step ensures regulatory alignment on the chosen submission route and must be completed between 18 and 7 months before the planned MAA submission depending on project organization and availability of Phase II/III clinical data.,0
 49,13,Centralised Procedure Eligibility Request,Labeling,130,60,75,90,Y,70.0,Submission of the eligibility request to EMA to confirm acceptance of the Centralised Procedure. This step ensures regulatory alignment on the chosen submission route and must be completed between 18 and 7 months before the planned MAA submission depending on project organization and availability of Phase II/III clinical data.,0
@@ -87,7 +87,7 @@ Task_ID,Step_No,Task,Role,dispatch_date,O_Days,M_Days,P_Days,Use_PERT,Effort_Day
 62,15,ATC code request ,Regulatory Strategist (Global/EU),300,70,80,90,Y,36.0,Submission of the ATC (Anatomical Therapeutic Chemical) code request to WHO required for the MAA dossier. Ideally submitted up to 12 months before the planned submission and no later than 3 months prior to ensure the product is assigned an official ATC classification in time for evaluation.,0
 62,15,ATC code request ,Regulatory Operations,300,70,80,90,Y,6.0,Submission of the ATC (Anatomical Therapeutic Chemical) code request to WHO required for the MAA dossier. Ideally submitted up to 12 months before the planned submission and no later than 3 months prior to ensure the product is assigned an official ATC classification in time for evaluation.,0
 62,15,ATC code request submitted,Regulatory Strategist (Global/EU),230,1,1,1,Y,36.0,Submission of the ATC (Anatomical Therapeutic Chemical) code request to WHO required for the MAA dossier. Ideally submitted up to 12 months before the planned submission and no later than 3 months prior to ensure the product is assigned an official ATC classification in time for evaluation.,1
-87,23,Company Core Data Sheet (CCDS),Labelling,700,600,640,650,Y,12.0,Company core data sheet is finalized aligned with global labeling and serves as the reference for SmPC and PI,0
+87,23,Company Core Data Sheet (CCDS),Labeling,700,600,640,650,Y,12.0,Company core data sheet is finalized aligned with global labeling and serves as the reference for SmPC and PI,0
 88,24,Messaging alignment meeting 1,Global Regulatory Lead,420,1,1,1,Y,1.2,Cross functional alignment meeting ensures consistency of key regulatory and scientific messages,1
 88,24,Messaging alignment meeting 1,Management,420,1,1,1,Y,1.2,Cross functional alignment meeting ensures consistency of key regulatory and scientific messages,1
 89,24,Messaging alignment meeting 1,Labeling,420,1,1,1,Y,0.2,Cross functional alignment meeting ensures consistency of key regulatory and scientific messages,1
@@ -100,7 +100,7 @@ Task_ID,Step_No,Task,Role,dispatch_date,O_Days,M_Days,P_Days,Use_PERT,Effort_Day
 96,25,Messaging alignment meeting 2,Regulatory CMC,300,1,1,1,Y,0.2,Cross functional alignment meeting ensures consistency of key regulatory and scientific messages,1
 97,25,Messaging alignment meeting 2,Regulatory Operations,300,1,1,1,Y,0.2,Cross functional alignment meeting ensures consistency of key regulatory and scientific messages,1
 98,25,Messaging alignment meeting 2,Regulatory Strategist (Global/EU),300,1,1,1,Y,0.2,Cross functional alignment meeting ensures consistency of key regulatory and scientific messages,1
-99,26,Product Artwork and Mock-ups,Labelling,130,109,109,109,Y,6.0,Product artwork and mock ups are developed checked and approved in line with CCDS and QRD templates,0
+99,26,Product Artwork and Mock-ups,Labeling,130,109,109,109,Y,6.0,Product artwork and mock ups are developed checked and approved in line with CCDS and QRD templates,0
 99,26,Product Artwork and Mock-ups,Regulatory Strategist (Global/EU),130,109,109,109,Y,6.0,Product artwork and mock ups are developed checked and approved in line with CCDS and QRD templates,0
 99,26,Product Artwork and Mock-ups,Other function,130,109,109,109,Y,6.0,Product artwork and mock ups are developed checked and approved in line with CCDS and QRD templates,0
 100,27,Compilation of eCTD dossier,Regulatory Operations,130,99,99,99,Y,2.8,Full eCTD sequence is compiled validated and prepared for submission according to technical standards,0
