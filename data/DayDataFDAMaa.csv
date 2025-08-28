@@ -110,7 +110,7 @@ Task_ID,Step_No,Task,Role,dispatch_date,O_Days,M_Days,P_Days,Use_PERT,Effort_Day
 99,26,Product Artwork and Mock-ups,Labeling,130,109,109,109,Y,6.0,Product artwork and mock ups are developed checked and approved in line with CCDS and QRD templates,0
 99,26,Product Artwork and Mock-ups,Regulatory Strategist (Global/EU),130,109,109,109,Y,6.0,Product artwork and mock ups are developed checked and approved in line with CCDS and QRD templates,0
 99,26,Product Artwork and Mock-ups,Other function,130,109,109,109,Y,6.0,Product artwork and mock ups are developed checked and approved in line with CCDS and QRD templates,0
-17,17,US Prescribing Information (USPI),Labeling,130,109,109,109,Y,10.0,Preparation of draft US Prescribing Information (USPI) to define indication, dosage, warnings, and administration prior to FDA review.,0
+17,17,US Prescribing Information (USPI),Labeling,130,109,109,109,Y,10.0,Preparation of draft US Prescribing Information (USPI) to define indication dosage warnings and administration prior to FDA review.,0
 22,22,Form FDA 356h Application Form,Regulatory Strategist (Global/EU),0,5,5,5,Y,2.0,Preparation and completion of the FDA Form 356h application form as part of Module 1.,0
 100,27,Compilation of eCTD dossier,Regulatory Operations,130,99,99,99,Y,2.8,Full eCTD sequence is compiled validated and prepared for submission according to technical standards,0
 101,28,Final internal review and sign-off,Global Regulatory Lead,31,5,5,5,Y,4.4,Final quality control and internal sign off are performed before dispatch of the dossier,0

@@ -467,7 +467,10 @@ def main() -> None:
         "Global Regulatory Lead": "#2ca02c",             # vert
         "Regulatory Strategist (Global/EU)": "#8c564b",  # marron
         "EMA": "#bcbd22",                                # jaune
-        "Labeling": "#C59F9F",                           # bleu foncé
+        "Labeling": "#C59F9F",                              # bleu foncé
+        "FDA": "#e377c2",           # rose
+        "Milestone": "#000000",                            # noi
+        
     }
 
     # Deterministic base palette (fixed order). Used for unknown roles.

@@ -258,7 +258,7 @@ Task_ID,Step_No,Task,Role,dispatch_date,O_Days,M_Days,P_Days,Use_PERT,Effort_Day
 102,28,Final internal review and sign-off,Labeling,31,5,5,5,Y,0.4,Final quality control and internal sign off are performed before dispatch of the dossier,0
 103,28,Final internal review and sign-off,Other function,31,5,5,5,Y,2.4,Final quality control and internal sign off are performed before dispatch of the dossier,0
 104,28,Final internal review and sign-off,Regulatory CMC,31,5,5,5,Y,0.4,Final quality control and internal sign off are performed before dispatch of the dossier,0
-105,28,Final internal review and sign-off,Regulatory Operation,31,5,5,5,Y,0.4,Final quality control and internal sign off are performed before dispatch of the dossier,0
+105,28,Final internal review and sign-off,Regulatory Operations,31,5,5,5,Y,0.4,Final quality control and internal sign off are performed before dispatch of the dossier,0
 105,28,Final internal review and sign-off,Regulatory Strategist (Global/EU),31,5,5,5,Y,0.4,Final quality control and internal sign off are performed before dispatch of the dossier,0
 106,29,Validation of dispatch of MAA to EMA,Regulatory Operations,26,1,1,1,Y,2.0,Validation step confirms readiness of submission package five days before official dispatch,1
 107,30,dispatch of MAA to EMA,Regulatory Operations,21,1,1,1,Y,0.2,Marketing authorisation application is officially dispatched to EMA as planned submission,1
