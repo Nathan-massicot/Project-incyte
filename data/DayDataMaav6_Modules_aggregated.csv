@@ -28,15 +28,15 @@ Task_ID,Step_No,Task,Role,dispatch_date,O_Days,M_Days,P_Days,Use_PERT,Effort_Day
 28,7,Module 1,Regulatory CMC,185,220,180,180,180,2,,0
 29,7,Module 1,Regulatory Operations,220,180,180,180,,0
 30,7,Module 1,Regulatory Strategist (Global/EU),220,180,180,180,Y,30.0,,0
-31,8,Module 2 CMC,Other function,100,90,90,90,Y,0.8,,0
-32,8,Module 2 CMC,Regulatory CMC,100,90,90,90,Y,12.0,,0
-32,8,Module 2 CMC,Regulatory Operations,100,90,90,90,Y,1.0,,0
+31,8,Module 2 CMC,Other function,120,90,90,90,Y,0.8,,0
+32,8,Module 2 CMC,Regulatory CMC,120,90,90,90,Y,12.0,,0
+32,8,Module 2 CMC,Regulatory Operations,120,90,90,90,Y,1.0,,0
 32,8,Module 2 Nonclinical,Regulatory Operations,400,90,90,90,Y,1.0,,0
 32,8,Module 2 Nonclinical,Other function,400,90,90,90,Y,10.8,,0
-32,8,Module 2 Clinical,Regulatory Operations,110,90,90,90,Y,1.0,,0
-32,8,Module 2 Clinical,Other function,110,90,90,90,Y,10.8,,0
-32,8,Module 2 Clinical,Global Regulatory Lead,110,90,90,90,Y,0.8,,0
-32,8,Module 2 Clinical,Labeling,110,90,90,90,Y,0.8,,0
+32,8,Module 2 Clinical,Regulatory Operations,130,90,90,90,Y,1.0,,0
+32,8,Module 2 Clinical,Other function,130,90,90,90,Y,10.8,,0
+32,8,Module 2 Clinical,Global Regulatory Lead,130,90,90,90,Y,0.8,,0
+32,8,Module 2 Clinical,Labeling,130,90,90,90,Y,0.8,,0
 32,8,Module 2 Clinical,Regulatory Strategist (Global/EU),110,90,90,90,Y,0.8,,0
 35,9,Module 3,Other function,200,100,100,100,Y,36.0,,0
 36,9,Module 3,Regulatory CMC,200,100,100,100,Y,35.0,,0
@@ -103,7 +103,7 @@ Task_ID,Step_No,Task,Role,dispatch_date,O_Days,M_Days,P_Days,Use_PERT,Effort_Day
 99,26,Product Artwork and Mock-ups,Labeling,130,109,109,109,Y,6.0,Product artwork and mock ups are developed checked and approved in line with CCDS and QRD templates,0
 99,26,Product Artwork and Mock-ups,Regulatory Strategist (Global/EU),130,109,109,109,Y,6.0,Product artwork and mock ups are developed checked and approved in line with CCDS and QRD templates,0
 99,26,Product Artwork and Mock-ups,Other function,130,109,109,109,Y,6.0,Product artwork and mock ups are developed checked and approved in line with CCDS and QRD templates,0
-100,27,Compilation of eCTD dossier,Regulatory Operations,130,99,99,99,Y,2.8,Full eCTD sequence is compiled validated and prepared for submission according to technical standards,0
+100,27,Compilation of eCTD dossier,Regulatory Operations,129,99,99,99,Y,2.8,Full eCTD sequence is compiled validated and prepared for submission according to technical standards,0
 101,28,Final internal review and sign-off,Global Regulatory Lead,31,5,5,5,Y,4.4,Final quality control and internal sign off are performed before dispatch of the dossier,0
 102,28,Final internal review and sign-off,Labeling,31,5,5,5,Y,0.4,Final quality control and internal sign off are performed before dispatch of the dossier,0
 103,28,Final internal review and sign-off,Other function,31,5,5,5,Y,2.4,Final quality control and internal sign off are performed before dispatch of the dossier,0
